@@ -408,6 +408,44 @@
   }
 }
 
+/* Readable prose for legal pages */
+.prose-legal {
+  color: color-mix(in srgb, var(--color-charcoal) 82%, transparent);
+  line-height: 1.7;
+}
+.prose-legal p {
+  margin-top: 1rem;
+}
+.prose-legal h2 {
+  font-family: var(--font-display);
+  font-size: 1.4rem;
+  font-weight: 500;
+  color: var(--color-charcoal);
+  margin-top: 2.25rem;
+  letter-spacing: -0.01em;
+}
+.prose-legal ul {
+  margin-top: 0.75rem;
+  padding-left: 1.25rem;
+  list-style: disc;
+}
+.prose-legal li {
+  margin-top: 0.4rem;
+}
+.prose-legal a {
+  color: var(--color-burnt);
+  text-decoration: underline;
+  text-underline-offset: 3px;
+  text-decoration-color: color-mix(in srgb, var(--color-burnt) 40%, transparent);
+}
+.prose-legal a:hover {
+  color: var(--color-oxblood);
+}
+.prose-legal strong {
+  color: var(--color-charcoal);
+  font-weight: 600;
+}
+
 /* Hero micro-motion (decorative, motion-only) */
 @keyframes rec-blink {
   0%,

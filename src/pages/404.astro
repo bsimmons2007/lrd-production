@@ -1,0 +1,69 @@
+---
+import Layout from "../layouts/Layout.astro";
+---
+
+<Layout
+  title="Page not found"
+  description="That page couldn't be found — but the work is just a click away."
+>
+  <section
+    class="relative flex min-h-[72svh] flex-col items-center justify-center px-5 py-24 text-center"
+  >
+    <div class="aurora-glow" aria-hidden="true"></div>
+
+    <div class="relative">
+      <p class="eyebrow eyebrow--center">Error 404 · Signal lost</p>
+
+      <h1
+        class="mt-6 font-display text-[clamp(5rem,20vw,11rem)] font-medium leading-none text-charcoal"
+      >
+        404
+      </h1>
+
+      <!-- flatlined waveform: no signal -->
+      <svg
+        class="mx-auto mt-6 h-8 w-[min(420px,80%)] text-burnt"
+        viewBox="0 0 240 40"
+        preserveAspectRatio="none"
+        fill="none"
+        aria-hidden="true"
+      >
+        <path
+          d="M0 20 H104 l7 -13 l7 26 l7 -13 H240"
+          stroke="currentColor"
+          stroke-width="2.5"
+          stroke-linecap="round"
+          stroke-linejoin="round"></path>
+      </svg>
+
+      <p class="mx-auto mt-7 max-w-md text-lg leading-relaxed text-charcoal/75">
+        This track isn't in the catalogue. The page you're after doesn't exist
+        or may have moved.
+      </p>
+
+      <div class="mt-9 flex flex-col items-center gap-5 sm:flex-row sm:justify-center">
+        <a href="/" class="btn-primary magnetic">Back to home</a>
+        <a href="/portfolio" class="link-arrow">
+          Hear the work
+          <svg
+            class="h-4 w-4"
+            viewBox="0 0 24 24"
+            fill="none"
+            stroke="currentColor"
+            stroke-width="2"
+            stroke-linecap="round"
+            stroke-linejoin="round"
+            aria-hidden="true"
+          >
+            <path d="M5 12h14M13 6l6 6-6 6"></path>
+          </svg>
+        </a>
+      </div>
+    </div>
+  </section>
+</Layout>
+
+<script>
+  import { initMotion } from "../scripts/motion";
+  initMotion();
+</script>

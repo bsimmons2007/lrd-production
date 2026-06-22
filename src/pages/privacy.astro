@@ -1,0 +1,110 @@
+---
+import Layout from "../layouts/Layout.astro";
+import { CONTACT } from "../config";
+
+/*
+  TODO: Logan — this is a plain-language starter policy tailored to what the
+  site actually does (Formspree contact form, Vercel Web Analytics, embedded
+  SoundCloud players, Google Fonts). Review it for your situation — and, if you
+  start handling payments or more data, have a professional look it over. This
+  is not legal advice. Update the "Last updated" date when you change it.
+*/
+const lastUpdated = "June 22, 2026";
+---
+
+<Layout
+  title="Privacy Policy"
+  description="How LRD Production handles the information you share through this site."
+>
+  <article class="mx-auto max-w-3xl px-5 py-16 sm:px-8 sm:py-24">
+    <p class="eyebrow">Legal</p>
+    <h1 class="mt-5 text-[clamp(2.25rem,7vw,4rem)] font-medium leading-[0.98] text-charcoal">
+      Privacy Policy
+    </h1>
+    <p class="mt-4 text-sm text-charcoal/55">Last updated: {lastUpdated}</p>
+
+    <div class="prose-legal mt-10">
+      <p>
+        This Privacy Policy explains what information LRD Production ("I", "me",
+        "my") collects when you use this website, how it's used, and the choices
+        you have. By using the site you agree to this policy.
+      </p>
+
+      <h2>Information I collect</h2>
+      <ul>
+        <li>
+          <strong>Contact form.</strong> When you submit the contact form, you provide
+          your name, email address, and the project details you choose to share.
+          The form is processed by <a href="https://formspree.io/legal/privacy-policy/" target="_blank" rel="noopener noreferrer">Formspree</a>,
+          which forwards your message to my email.
+        </li>
+        <li>
+          <strong>Analytics.</strong> I use Vercel Web Analytics to understand
+          aggregate, anonymous traffic (such as page views and general device
+          type). It does not use cookies and does not build personal profiles of
+          you.
+        </li>
+        <li>
+          <strong>Server logs.</strong> My host (Vercel) may keep standard
+          technical logs (e.g. IP address, browser type) to operate and secure
+          the site.
+        </li>
+      </ul>
+
+      <h2>How I use it</h2>
+      <ul>
+        <li>To respond to your inquiry and discuss or provide services.</li>
+        <li>To operate, maintain, and improve the website.</li>
+        <li>To protect the site against spam and abuse.</li>
+      </ul>
+
+      <h2>How it's shared</h2>
+      <p>
+        I don't sell your personal information. I share it only with the service
+        providers that help run this site — Formspree (form delivery), Vercel
+        (hosting and analytics) — and only as needed for those purposes, or where
+        required by law.
+      </p>
+
+      <h2>Third-party content</h2>
+      <p>
+        Some pages embed third-party content: SoundCloud players and Google
+        Fonts. These providers may receive your IP address and set their own
+        cookies when their content loads. Their use of data is governed by their
+        own privacy policies.
+      </p>
+
+      <h2>Data retention</h2>
+      <p>
+        I keep messages you send for as long as needed to respond and to provide
+        services you request, after which they may be deleted.
+      </p>
+
+      <h2>Your choices</h2>
+      <p>
+        You can ask me to access or delete the personal information you've sent
+        by emailing <a href={`mailto:${CONTACT.email}`}>{CONTACT.email}</a>.
+        Depending on where you live, you may have additional rights under
+        applicable privacy laws.
+      </p>
+
+      <h2>Children</h2>
+      <p>
+        This site isn't directed to children, and I don't knowingly collect
+        information from anyone under 13.
+      </p>
+
+      <h2>Changes</h2>
+      <p>
+        I may update this policy from time to time. Material changes will be
+        reflected by the "Last updated" date above.
+      </p>
+
+      <h2>Contact</h2>
+      <p>
+        Questions about this policy? Email
+        <a href={`mailto:${CONTACT.email}`}>{CONTACT.email}</a>.
+      </p>
+    </div>
+  </article>
+</Layout>

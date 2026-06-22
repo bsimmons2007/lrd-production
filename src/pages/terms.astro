@@ -1,0 +1,100 @@
+---
+import Layout from "../layouts/Layout.astro";
+import { CONTACT } from "../config";
+
+/*
+  TODO: Logan — starter Terms of Service in plain language. Review and adapt to
+  how you actually work (payment, revisions, deposits, deliverables) and confirm
+  the governing-law state. This is not legal advice. Update the date on changes.
+*/
+const lastUpdated = "June 22, 2026";
+---
+
+<Layout
+  title="Terms of Service"
+  description="The terms for using the LRD Production website and inquiring about services."
+>
+  <article class="mx-auto max-w-3xl px-5 py-16 sm:px-8 sm:py-24">
+    <p class="eyebrow">Legal</p>
+    <h1 class="mt-5 text-[clamp(2.25rem,7vw,4rem)] font-medium leading-[0.98] text-charcoal">
+      Terms of Service
+    </h1>
+    <p class="mt-4 text-sm text-charcoal/55">Last updated: {lastUpdated}</p>
+
+    <div class="prose-legal mt-10">
+      <p>
+        These terms govern your use of the LRD Production website (the "site")
+        and any inquiry you make through it. By using the site, you agree to
+        them. If you don't agree, please don't use the site.
+      </p>
+
+      <h2>Services</h2>
+      <p>
+        LRD Production offers freelance audio services including recording,
+        mixing, mastering, and production. Information on this site is for general
+        description only. Submitting the contact form is a request to start a
+        conversation — it isn't a binding agreement. The specific scope, timeline,
+        deliverables, and price for any project are agreed separately in writing
+        before work begins.
+      </p>
+
+      <h2>Your submissions</h2>
+      <p>
+        When you contact me, please provide accurate information. If you share
+        audio, lyrics, or other materials, you confirm you have the rights to do
+        so. You keep ownership of the materials you provide; rights and usage for
+        finished work are set out in each project agreement.
+      </p>
+
+      <h2>Intellectual property</h2>
+      <p>
+        The site's design, text, branding, and original tracks are owned by LRD
+        Production and may not be copied or reused without permission.
+      </p>
+
+      <h2>Payment</h2>
+      <p>
+        Any fees, deposits, and payment schedule are arranged per project and
+        confirmed in your project agreement before work starts.
+      </p>
+
+      <h2>Disclaimers</h2>
+      <p>
+        The site is provided "as is" without warranties of any kind. While I work
+        to deliver quality results, no specific outcome (such as streams,
+        placements, or sales) is guaranteed.
+      </p>
+
+      <h2>Limitation of liability</h2>
+      <p>
+        To the extent permitted by law, LRD Production isn't liable for indirect
+        or incidental damages arising from your use of the site.
+      </p>
+
+      <h2>Third-party links &amp; content</h2>
+      <p>
+        The site embeds and links to third-party services (e.g. SoundCloud). I'm
+        not responsible for their content or practices.
+      </p>
+
+      <h2>Governing law</h2>
+      <p>
+        These terms are governed by the laws of the State of Illinois, USA,
+        without regard to its conflict-of-laws rules.
+        {/* TODO: Logan — confirm this is the right jurisdiction for you. */}
+      </p>
+
+      <h2>Changes</h2>
+      <p>
+        I may update these terms from time to time; the "Last updated" date above
+        reflects the latest version.
+      </p>
+
+      <h2>Contact</h2>
+      <p>
+        Questions about these terms? Email
+        <a href={`mailto:${CONTACT.email}`}>{CONTACT.email}</a>.
+      </p>
+    </div>
+  </article>
+</Layout>

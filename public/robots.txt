@@ -1,0 +1,5 @@
+User-agent: *
+Allow: /
+
+# TODO: Logan — update the domain here if you move off the default Vercel URL.
+Sitemap: https://lrd-production.vercel.app/sitemap-index.xml
