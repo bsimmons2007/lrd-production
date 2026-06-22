@@ -2,26 +2,25 @@
 /**
  * TrackCard — a single piece of work.
  *
- * Today it renders a brand-tinted, lazy-loaded SoundCloud embed. It's
- * structured so a self-hosted wavesurfer.js player can drop in later:
- * pass `audioSrc` and the SoundCloud iframe is replaced by a mount point
- * (wire up wavesurfer in a client script keyed off [data-wavesurfer]).
+ * Renders a brand-tinted, lazy-loaded SoundCloud embed today. Structured so a
+ * self-hosted wavesurfer.js player can drop in later: pass `audioSrc` and the
+ * iframe is replaced by a mount point ([data-wavesurfer]).
  */
 interface Props {
   title: string;
   embedUrl: string;
+  index?: string;
   genre?: string;
   role?: string;
   year?: string;
-  /** When present, render a self-hosted player mount instead of SoundCloud. */
   audioSrc?: string;
-  /** iframe loading strategy; lazy by default since embeds are heavy. */
   loading?: "lazy" | "eager";
   class?: string;
 }
 const {
   title,
   embedUrl,
+  index,
   genre,
   role,
   year,
@@ -33,14 +32,12 @@ const {
 const tags = [genre, role, year].filter(Boolean) as string[];
 ---
 
-<article
-  class:list={[
-    "group flex flex-col gap-4 rounded-2xl border border-charcoal/10 bg-sand/50 p-4 shadow-[var(--shadow-warm)] transition-shadow duration-300 hover:shadow-[var(--shadow-warm-lg)] sm:p-5",
-    className,
-  ]}
->
+<article class:list={["card card-hover flex flex-col gap-4 p-4 sm:p-5", className]}>
   <header class="flex flex-wrap items-baseline justify-between gap-x-3 gap-y-1">
-    <h3 class="text-xl font-medium text-charcoal sm:text-2xl">{title}</h3>
+    <h3 class="flex items-baseline gap-3 text-xl font-medium text-charcoal sm:text-2xl">
+      {index && <span class="index-num text-base opacity-30">{index}</span>}
+      {title}
+    </h3>
     {
       tags.length > 0 && (
         <ul class="flex flex-wrap gap-1.5">

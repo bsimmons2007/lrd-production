@@ -112,13 +112,20 @@ src/
   layouts/Layout.astro     shared shell: head/SEO, header, footer, analytics
   components/
     TypeMark.astro         LRD PRODUCTION text logo
-    Header.astro           sticky nav + mobile menu
-    Footer.astro           contact, socials, status echo
+    Header.astro           sticky nav + mobile menu + scroll elevation
+    Footer.astro           contact, socials, status echo, brand watermark
     StatusBadge.astro      availability pill
+    SectionHeader.astro    numbered editorial section header
+    Marquee.astro          seamless tape-strip marquee (genres)
+    Equalizer.astro        animated bar motif
+    Stat.astro             count-up metric
     TrackCard.astro        SoundCloud embed (wavesurfer-ready via audioSrc)
     ServiceCard.astro      services offering card
     BeforeAfter.astro      A/B raw-vs-mixed player
-  scripts/motion.ts        Anime.js v4 entrances + scroll reveals
+    CTABand.astro          dark closing call-to-action band
+  scripts/motion.ts        Anime.js v4: hero entrance, scroll reveals,
+                           word reveals, count-ups, magnetic buttons,
+                           live equalizer, scroll-progress bar
   pages/                   index, portfolio, about, services, contact
   styles/global.css        brand tokens, base styles, grain, motion gating
 ```
@@ -129,7 +136,8 @@ src/
 
 - **Motion & accessibility:** all animation is gated behind
   `prefers-reduced-motion`. With reduced motion (or JS off), everything renders
-  in its final, fully-visible state — no flashes, nothing hidden.
+  in its final, fully-visible state — no flashes, nothing hidden. Add
+  `?stillshot` to any URL to preview that motion-off state in a normal browser.
 - **Performance:** SoundCloud embeds are lazy-loaded; fonts use `preconnect` +
   `display=swap`; Anime.js ships only to pages that animate.
 - **TrackCard is wavesurfer-ready:** pass an `audioSrc` to a track in `TRACKS`

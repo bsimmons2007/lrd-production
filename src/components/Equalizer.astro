@@ -1,0 +1,15 @@
+---
+/**
+ * Equalizer — small animated bar motif (decorative).
+ * Bars breathe via initEqualizer() in motion.ts; static under reduced motion.
+ */
+interface Props {
+  bars?: number;
+  class?: string;
+}
+const { bars = 5, class: className = "" } = Astro.props;
+---
+
+<span class:list={["eq", className]} aria-hidden="true">
+  {Array.from({ length: bars }).map(() => <span class="eq-bar" />)}
+</span>

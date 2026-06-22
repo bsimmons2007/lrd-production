@@ -1,0 +1,51 @@
+---
+/**
+ * SectionHeader — editorial, numbered section header.
+ * Eyebrow (with leading tick) + a word-reveal title + optional big index.
+ * Place inside a `.reveal-group` on the page so the eyebrow/index fade in.
+ */
+interface Props {
+  index?: string;
+  eyebrow: string;
+  title: string;
+  as?: "h1" | "h2";
+  align?: "left" | "center";
+  class?: string;
+  titleClass?: string;
+}
+const {
+  index,
+  eyebrow,
+  title,
+  as = "h2",
+  align = "left",
+  class: className = "",
+  titleClass = "text-[clamp(2.25rem,6vw,4.25rem)] leading-[0.98]",
+} = Astro.props;
+const Tag = as;
+const center = align === "center";
+---
+
+<div
+  class:list={[
+    "flex gap-6",
+    center ? "flex-col items-center text-center" : "items-end justify-between",
+    className,
+  ]}
+>
+  <div class={center ? "" : "max-w-3xl"}>
+    <p class:list={["eyebrow reveal", center && "eyebrow--center"]}>{eyebrow}</p>
+    <Tag
+      class:list={["reveal-text mt-5 font-medium text-charcoal", titleClass]}
+    >
+      {title}
+    </Tag>
+  </div>
+  {
+    index && (
+      <span class="index-num reveal hidden shrink-0 text-7xl opacity-20 sm:block lg:text-8xl">
+        {index}
+      </span>
+    )
+  }
+</div>

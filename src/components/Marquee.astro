@@ -1,0 +1,32 @@
+---
+/**
+ * Marquee — seamless scrolling tape strip (decorative).
+ * Content is duplicated so the loop is seamless; pauses on hover.
+ */
+interface Props {
+  items: string[];
+  duration?: string;
+  class?: string;
+}
+const { items, duration = "36s", class: className = "" } = Astro.props;
+const loop = [...items, ...items];
+---
+
+<div
+  class:list={["marquee select-none", className]}
+  style={`--marquee-duration:${duration}`}
+  aria-hidden="true"
+>
+  <div class="marquee__track">
+    {
+      loop.map((item) => (
+        <span class="inline-flex items-center">
+          <span class="px-7 font-display text-2xl text-charcoal/85 sm:text-3xl">
+            {item}
+          </span>
+          <span class="text-lg text-burnt">✦</span>
+        </span>
+      ))
+    }
+  </div>
+</div>

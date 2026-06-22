@@ -15,10 +15,10 @@ const labelClass = "mb-1.5 block text-sm font-medium text-charcoal";
   <section class="mx-auto max-w-2xl px-5 py-16 sm:px-8 sm:py-20">
     <div class="reveal-group">
       <p class="reveal eyebrow">Contact</p>
-      <h1 class="reveal mt-3 text-4xl font-medium text-charcoal sm:text-5xl">
+      <h1 class="reveal-text mt-5 text-[clamp(2.5rem,8vw,5rem)] font-medium leading-[0.95] text-charcoal">
         Let's make something
       </h1>
-      <p class="reveal mt-4 text-lg leading-relaxed text-charcoal/80">
+      <p class="reveal mt-5 text-lg leading-relaxed text-charcoal/80">
         Interested in collaborating or booking a service? Drop your info below
         and I'll get back to you as soon as I can. Looking forward to
         connecting.
@@ -224,8 +224,8 @@ const labelClass = "mb-1.5 block text-sm font-medium text-charcoal";
 </Layout>
 
 <script>
-  import { initReveals } from "../scripts/motion";
-  initReveals();
+  import { initMotion } from "../scripts/motion";
+  initMotion();
 
   // Progressive enhancement: submit via fetch for an inline success state.
   // Without JS, the form still POSTs to Formspree normally.

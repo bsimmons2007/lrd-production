@@ -1,5 +1,6 @@
 ---
 import Layout from "../layouts/Layout.astro";
+import CTABand from "../components/CTABand.astro";
 
 const tools = ["Logic", "Pro Tools", "Ableton", "Samplitude"];
 ---
@@ -8,51 +9,52 @@ const tools = ["Logic", "Pro Tools", "Ableton", "Samplitude"];
   title="About"
   description="Logan Drafall (LRD Production) — aspiring audio engineer, producer, and musician based in Aurora, Illinois. A decade on piano, versatile across genres."
 >
-  <section
-    class="reveal-group mx-auto max-w-5xl px-5 py-16 sm:px-8 sm:py-20"
-  >
+  <section class="reveal-group mx-auto max-w-6xl px-5 py-16 sm:px-8 sm:py-24">
     <p class="reveal eyebrow">About</p>
-    <h1 class="reveal mt-3 text-4xl font-medium text-charcoal sm:text-5xl">
+    <h1 class="reveal-text mt-5 text-[clamp(2.5rem,8vw,5rem)] font-medium leading-[0.95] text-charcoal">
       Who I am
     </h1>
 
-    <div class="mt-10 grid gap-10 lg:grid-cols-5 lg:gap-14">
+    <div class="mt-12 grid gap-10 lg:grid-cols-5 lg:gap-16">
       <!-- Photo (portrait) -->
       <div class="reveal lg:col-span-2">
-        {/* TODO: Logan — replace this placeholder block with:
-             <img src="/images/logan.jpg" alt="Logan Drafall" width="800" height="1000"
-                  class="aspect-[4/5] w-full rounded-2xl object-cover shadow-[var(--shadow-warm)]" /> */}
-        <div
-          class="flex aspect-[4/5] w-full flex-col items-center justify-center rounded-2xl border border-charcoal/10 bg-gradient-to-br from-sand to-amber/30 text-center shadow-[var(--shadow-warm)]"
-        >
-          <svg
-            class="h-10 w-10 text-oxblood/40"
-            viewBox="0 0 24 24"
-            fill="none"
-            stroke="currentColor"
-            stroke-width="1.5"
-            stroke-linecap="round"
-            stroke-linejoin="round"
-            aria-hidden="true"
+        <div class="relative">
+          <span class="tape absolute -left-3 -top-3 z-10">LRD</span>
+          {/* TODO: Logan — replace this placeholder block with:
+               <img src="/images/logan.jpg" alt="Logan Drafall" width="800" height="1000"
+                    class="aspect-[4/5] w-full rounded-2xl object-cover shadow-[var(--shadow-warm)]" /> */}
+          <div
+            class="flex aspect-[4/5] w-full flex-col items-center justify-center rounded-2xl border border-charcoal/12 bg-gradient-to-br from-sand to-amber/30 text-center shadow-[var(--shadow-warm)]"
           >
-            <path d="M3 7h3l2-2h8l2 2h3v12H3z"></path>
-            <circle cx="12" cy="13" r="3.5"></circle>
-          </svg>
-          <span class="mt-3 text-sm font-medium text-charcoal/50"
-            >Photo coming soon</span
-          >
+            <svg
+              class="h-10 w-10 text-oxblood/40"
+              viewBox="0 0 24 24"
+              fill="none"
+              stroke="currentColor"
+              stroke-width="1.5"
+              stroke-linecap="round"
+              stroke-linejoin="round"
+              aria-hidden="true"
+            >
+              <path d="M3 7h3l2-2h8l2 2h3v12H3z"></path>
+              <circle cx="12" cy="13" r="3.5"></circle>
+            </svg>
+            <span class="mt-3 text-sm font-medium text-charcoal/50">
+              Photo coming soon
+            </span>
+          </div>
         </div>
       </div>
 
       <!-- Bio -->
       <div class="reveal lg:col-span-3">
-        <p class="text-lg leading-relaxed text-charcoal/85">
+        <p class="text-lg leading-relaxed text-charcoal/85 sm:text-xl">
           I'm an aspiring audio engineer, music producer, and musician. I've
           worked across a range of DAWs — Samplitude and Ableton among them —
           but I'm most at home in Logic and Pro Tools. I've got over ten years
           on the piano and around five years in the audio arts.
         </p>
-        <p class="mt-5 text-lg leading-relaxed text-charcoal/85">
+        <p class="mt-5 text-lg leading-relaxed text-charcoal/85 sm:text-xl">
           A little about me: I love writing random songs and chasing new sounds.
           As a musician, I'll take on any genre — rock, country, hip-hop,
           whatever the challenge — and I've even branched into 8-bit and retro
@@ -60,10 +62,10 @@ const tools = ["Logic", "Pro Tools", "Ableton", "Samplitude"];
           box myself into a single style.
         </p>
 
-        <!-- Tools -->
-        <div class="mt-9">
+        <!-- Tools rack -->
+        <div class="mt-9 rounded-2xl border border-charcoal/12 bg-sand/40 p-6">
           <p class="eyebrow">Tools I work in</p>
-          <ul class="mt-3 flex flex-wrap gap-2">
+          <ul class="mt-4 flex flex-wrap gap-2.5">
             {
               tools.map((t) => (
                 <li class="rounded-full border border-charcoal/15 bg-paper px-4 py-1.5 text-sm font-medium text-charcoal">
@@ -75,14 +77,20 @@ const tools = ["Logic", "Pro Tools", "Ableton", "Samplitude"];
         </div>
 
         <div class="mt-10">
-          <a href="/contact" class="btn-primary">Work with me</a>
+          <a href="/contact" class="btn-primary magnetic">Work with me</a>
         </div>
       </div>
     </div>
   </section>
+
+  <CTABand
+    eyebrow="Say hello"
+    title="Let's make something together."
+    buttonLabel="Get in touch"
+  />
 </Layout>
 
 <script>
-  import { initReveals } from "../scripts/motion";
-  initReveals();
+  import { initMotion } from "../scripts/motion";
+  initMotion();
 </script>

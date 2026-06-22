@@ -1,18 +1,19 @@
 @import "tailwindcss";
 
-/* ------------------------------------------------------------------ *
- * LRD Production — brand system (warm analog / vintage)
- * Tailwind v4 CSS-first theme. Tokens below become utilities, e.g.
- * --color-burnt  ->  bg-burnt / text-burnt / border-burnt
- * ------------------------------------------------------------------ */
+/* ================================================================== *
+ * LRD Production — design system
+ * Warm analog / vintage. Editorial type, console details, tape grain.
+ * Tokens below become Tailwind utilities (e.g. --color-burnt → bg-burnt)
+ * ================================================================== */
 @theme {
   /* Colors */
   --color-paper: #f4ebdd; /* primary background */
   --color-charcoal: #2b2622; /* primary text — never pure black */
-  --color-burnt: #c25a2b; /* primary accent / CTAs (burnt-orange) */
+  --color-burnt: #c25a2b; /* primary accent / CTAs */
   --color-amber: #e0922f; /* secondary accent / glow */
   --color-oxblood: #7a2e25; /* deep accent / hovers */
   --color-sand: #e7d9c3; /* surfaces / cards */
+  --color-ink: #201915; /* deepest brown-black, dark bands */
 
   /* Fonts */
   --font-display: "Fraunces", ui-serif, Georgia, "Times New Roman", serif;
@@ -21,14 +22,14 @@
 
   /* Soft, warm separation instead of harsh shadows */
   --shadow-warm: 0 1px 2px rgba(43, 38, 34, 0.04),
-    0 8px 24px -12px rgba(122, 46, 37, 0.18);
-  --shadow-warm-lg: 0 2px 4px rgba(43, 38, 34, 0.05),
-    0 18px 40px -16px rgba(122, 46, 37, 0.22);
+    0 10px 30px -16px rgba(122, 46, 37, 0.2);
+  --shadow-warm-lg: 0 2px 6px rgba(43, 38, 34, 0.06),
+    0 26px 50px -20px rgba(122, 46, 37, 0.28);
 }
 
-/* ------------------------------------------------------------------ *
+/* ================================================================== *
  * Base
- * ------------------------------------------------------------------ */
+ * ================================================================== */
 @layer base {
   html {
     font-family: var(--font-body);
@@ -38,13 +39,13 @@
     -moz-osx-font-smoothing: grayscale;
     text-rendering: optimizeLegibility;
     scroll-behavior: smooth;
-    /* offset for the sticky header when jumping to in-page anchors */
     scroll-padding-top: 6rem;
   }
 
   body {
     background-color: var(--color-paper);
     min-height: 100svh;
+    overflow-x: hidden;
   }
 
   h1,
@@ -54,9 +55,9 @@
   .font-display {
     font-family: var(--font-display);
     font-optical-sizing: auto;
+    letter-spacing: -0.015em;
   }
 
-  /* Accessible, on-brand focus ring */
   :focus-visible {
     outline: 2px solid var(--color-burnt);
     outline-offset: 3px;
@@ -67,13 +68,19 @@
     background: var(--color-amber);
     color: var(--color-charcoal);
   }
+
+  @media (pointer: fine) {
+    * {
+      scrollbar-width: thin;
+      scrollbar-color: color-mix(in srgb, var(--color-burnt) 60%, transparent)
+        transparent;
+    }
+  }
 }
 
-/* ------------------------------------------------------------------ *
- * Paper grain + film grain textures
- * grain.svg is a tileable fractalNoise raster (see /public/textures).
- * Kept tasteful and low-opacity; never blocks pointer events.
- * ------------------------------------------------------------------ */
+/* ================================================================== *
+ * Paper grain + film grain
+ * ================================================================== */
 .grain-overlay {
   position: fixed;
   inset: 0;
@@ -86,7 +93,6 @@
   mix-blend-mode: multiply;
 }
 
-/* Stronger film grain, scoped to the home hero */
 .hero-grain {
   position: absolute;
   inset: -25%;
@@ -96,6 +102,17 @@
   background-size: 200px 200px;
   opacity: 0.11;
   mix-blend-mode: multiply;
+}
+
+/* Grain that reads on dark bands */
+.grain-on-dark {
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  background-image: url("/textures/grain.svg");
+  background-size: 200px 200px;
+  opacity: 0.08;
+  mix-blend-mode: overlay;
 }
 
 @keyframes grain-flicker {
@@ -117,37 +134,48 @@
   }
 }
 
-/* Animate the hero grain only when motion is welcome */
 @media (prefers-reduced-motion: no-preference) {
   .hero-grain {
     animation: grain-flicker 1.2s steps(5) infinite;
   }
 }
 
-/* ------------------------------------------------------------------ *
- * Motion gating
- * The <html> element gets `.motion-ok` (set by an inline head script)
- * only when JS is on AND reduced-motion is NOT requested. Initial
- * hidden states live behind that class so that:
- *   - no-JS users see fully-rendered content
- *   - reduced-motion users see fully-rendered content
- *   - everyone else gets the entrance/reveal animations
- * ------------------------------------------------------------------ */
+/* ================================================================== *
+ * Motion gating — initial hidden states live behind .motion-ok so that
+ * no-JS and reduced-motion users see fully-rendered content.
+ * ================================================================== */
 .motion-ok .reveal {
   opacity: 0;
   will-change: opacity, transform;
 }
-/* Hero entrance targets start hidden only when we're going to animate them */
 .motion-ok #hero .mark-lrd,
 .motion-ok #hero .mark-production,
 .motion-ok #hero .hero-tagline,
 .motion-ok #hero .hero-badge,
-.motion-ok #hero .hero-cta {
+.motion-ok #hero .hero-cta,
+.motion-ok #hero .hero-meta {
   opacity: 0;
   will-change: opacity, transform;
 }
 
-/* Hard safety net: neutralize CSS animation/transition under reduced motion */
+/* Masked word reveal: words sit below a clip mask until animated up */
+.reveal-text .line {
+  display: block;
+  overflow: hidden;
+}
+.reveal-text .word {
+  display: inline-block;
+  overflow: hidden;
+  vertical-align: top;
+}
+.reveal-text .word-inner {
+  display: inline-block;
+  will-change: transform;
+}
+.motion-ok .reveal-text .word-inner {
+  transform: translateY(110%);
+}
+
 @media (prefers-reduced-motion: reduce) {
   html {
     scroll-behavior: auto;
@@ -161,12 +189,15 @@
   }
 }
 
-/* ------------------------------------------------------------------ *
- * Small shared utilities
- * ------------------------------------------------------------------ */
+/* ================================================================== *
+ * Components
+ * ================================================================== */
 @layer components {
-  /* Wide, letter-spaced label used across the brand */
+  /* Wide, letter-spaced label with a leading tick */
   .eyebrow {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.6rem;
     font-family: var(--font-body);
     text-transform: uppercase;
     letter-spacing: 0.22em;
@@ -174,16 +205,178 @@
     font-weight: 600;
     color: var(--color-oxblood);
   }
+  .eyebrow::before {
+    content: "";
+    width: 1.75rem;
+    height: 1px;
+    background: currentColor;
+    opacity: 0.6;
+  }
+  .eyebrow--center {
+    justify-content: center;
+  }
+  .eyebrow--bare::before {
+    display: none;
+  }
 
-  /* Shared buttons / links */
+  /* Big editorial section index, e.g. 01 / 02 */
+  .index-num {
+    font-family: var(--font-display);
+    font-weight: 500;
+    line-height: 1;
+    color: var(--color-burnt);
+    font-feature-settings: "tnum" 1;
+  }
+
+  /* Buttons */
   .btn-primary {
-    @apply inline-flex items-center justify-center gap-2 rounded-full bg-burnt px-7 py-3.5 text-sm font-semibold text-paper transition-colors duration-200 hover:bg-oxblood;
+    @apply relative inline-flex items-center justify-center gap-2 overflow-hidden rounded-full bg-burnt px-7 py-3.5 text-sm font-semibold text-paper transition-[background-color,transform] duration-200 hover:bg-oxblood active:scale-[0.98];
     box-shadow: var(--shadow-warm);
   }
   .btn-secondary {
-    @apply inline-flex items-center justify-center gap-2 rounded-full border border-charcoal/30 px-6 py-3 text-sm font-semibold text-charcoal transition-colors duration-200 hover:border-charcoal hover:bg-charcoal hover:text-paper;
+    @apply inline-flex items-center justify-center gap-2 rounded-full border border-charcoal/30 px-6 py-3 text-sm font-semibold text-charcoal transition-colors duration-200 hover:border-charcoal hover:bg-charcoal hover:text-paper active:scale-[0.98];
   }
+  .btn-ghost-light {
+    @apply inline-flex items-center justify-center gap-2 rounded-full border border-paper/30 px-6 py-3 text-sm font-semibold text-paper transition-colors duration-200 hover:bg-paper hover:text-ink;
+  }
+
+  /* Animated inline link arrow */
   .link-arrow {
     @apply inline-flex items-center gap-1.5 text-sm font-semibold text-oxblood transition-colors hover:text-burnt;
+  }
+
+  /* Refined surface card — hairline + warm lift, top accent on hover */
+  .card {
+    @apply relative rounded-2xl border border-charcoal/12 bg-sand/45 transition-[transform,box-shadow,border-color] duration-300;
+    box-shadow: var(--shadow-warm);
+  }
+  .card::before {
+    content: "";
+    position: absolute;
+    inset: 0 auto auto 0;
+    height: 2px;
+    width: 0;
+    border-radius: 9999px 9999px 0 0;
+    background: linear-gradient(
+      90deg,
+      var(--color-burnt),
+      var(--color-amber)
+    );
+    transition: width 0.4s ease;
+  }
+  .card-hover:hover {
+    transform: translateY(-4px);
+    box-shadow: var(--shadow-warm-lg);
+    border-color: color-mix(in srgb, var(--color-burnt) 35%, transparent);
+  }
+  .card-hover:hover::before {
+    width: 100%;
+  }
+
+  /* Masking-tape label */
+  .tape {
+    display: inline-block;
+    padding: 0.15rem 0.7rem;
+    background: color-mix(in srgb, var(--color-amber) 75%, var(--color-paper));
+    color: var(--color-ink);
+    font-family: var(--font-body);
+    font-weight: 600;
+    font-size: 0.7rem;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    transform: rotate(-2deg);
+    box-shadow: 0 1px 2px rgba(43, 38, 34, 0.12);
+  }
+
+  /* Dark contrast band */
+  .band-dark {
+    position: relative;
+    background: var(--color-ink);
+    color: var(--color-paper);
+    overflow: hidden;
+  }
+
+  /* Equalizer */
+  .eq {
+    display: inline-flex;
+    align-items: flex-end;
+    gap: 4px;
+    height: 2.5rem;
+  }
+  .eq-bar {
+    width: 5px;
+    height: 100%;
+    border-radius: 3px;
+    background: linear-gradient(
+      to top,
+      var(--color-burnt),
+      var(--color-amber)
+    );
+    transform: scaleY(0.35);
+    transform-origin: bottom;
+  }
+
+  /* Tape marquee */
+  .marquee {
+    overflow: hidden;
+    white-space: nowrap;
+  }
+  .marquee__track {
+    display: inline-flex;
+    align-items: center;
+    will-change: transform;
+  }
+  @keyframes marquee-scroll {
+    to {
+      transform: translateX(-50%);
+    }
+  }
+  @media (prefers-reduced-motion: no-preference) {
+    .marquee__track {
+      animation: marquee-scroll var(--marquee-duration, 32s) linear infinite;
+    }
+    .marquee:hover .marquee__track {
+      animation-play-state: paused;
+    }
+  }
+
+  /* Animated underline for inline text links */
+  .ul-anim {
+    background-image: linear-gradient(currentColor, currentColor);
+    background-size: 0% 1.5px;
+    background-position: 0 100%;
+    background-repeat: no-repeat;
+    transition: background-size 0.35s ease;
+  }
+  .ul-anim:hover {
+    background-size: 100% 1.5px;
+  }
+}
+
+/* Hero micro-motion (decorative, motion-only) */
+@keyframes rec-blink {
+  0%,
+  100% {
+    opacity: 1;
+  }
+  50% {
+    opacity: 0.2;
+  }
+}
+@keyframes scroll-bob {
+  0%,
+  100% {
+    transform: translateY(0);
+  }
+  50% {
+    transform: translateY(4px);
+  }
+}
+@media (prefers-reduced-motion: no-preference) {
+  .rec-dot {
+    animation: rec-blink 1.4s ease-in-out infinite;
+  }
+  .scroll-cue svg {
+    animation: scroll-bob 1.8s ease-in-out infinite;
   }
 }

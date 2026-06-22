@@ -1,0 +1,56 @@
+---
+/**
+ * CTABand — deep, warm contrast band used as the closing call-to-action.
+ * Breaks up the all-paper rhythm and anchors the page.
+ */
+import Equalizer from "./Equalizer.astro";
+
+interface Props {
+  eyebrow?: string;
+  title: string;
+  buttonLabel?: string;
+  href?: string;
+}
+const {
+  eyebrow = "Let's work",
+  title,
+  buttonLabel = "Get in touch",
+  href = "/contact",
+} = Astro.props;
+---
+
+<section class="band-dark">
+  <div class="grain-on-dark" aria-hidden="true"></div>
+  <div
+    class="reveal-group relative mx-auto flex max-w-4xl flex-col items-center px-5 py-20 text-center sm:py-28"
+  >
+    <div class="reveal flex items-center gap-3">
+      <Equalizer bars={5} class="h-6" />
+      <p class="eyebrow eyebrow--bare !text-amber">{eyebrow}</p>
+    </div>
+
+    <h2
+      class="reveal-text mt-6 text-[clamp(2.25rem,6vw,4.5rem)] font-medium leading-[0.98] text-paper"
+    >
+      {title}
+    </h2>
+
+    <div class="reveal mt-9">
+      <a href={href} class="btn-primary magnetic">
+        {buttonLabel}
+        <svg
+          class="h-4 w-4"
+          viewBox="0 0 24 24"
+          fill="none"
+          stroke="currentColor"
+          stroke-width="2"
+          stroke-linecap="round"
+          stroke-linejoin="round"
+          aria-hidden="true"
+        >
+          <path d="M5 12h14M13 6l6 6-6 6"></path>
+        </svg>
+      </a>
+    </div>
+  </div>
+</section>

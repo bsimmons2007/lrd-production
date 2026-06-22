@@ -2,6 +2,8 @@
 import Layout from "../layouts/Layout.astro";
 import TrackCard from "../components/TrackCard.astro";
 import BeforeAfter from "../components/BeforeAfter.astro";
+import CTABand from "../components/CTABand.astro";
+import SectionHeader from "../components/SectionHeader.astro";
 import { TRACKS, MIX_DEMOS, soundcloudEmbed } from "../config";
 ---
 
@@ -9,24 +11,32 @@ import { TRACKS, MIX_DEMOS, soundcloudEmbed } from "../config";
   title="Portfolio"
   description="A selection of original work by LRD Production — produced, mixed, and mastered. Listen on SoundCloud."
 >
-  <!-- Intro -->
-  <section class="reveal-group mx-auto max-w-6xl px-5 pt-16 sm:px-8 sm:pt-20">
-    <p class="reveal eyebrow">Portfolio</p>
-    <h1 class="reveal mt-3 text-4xl font-medium text-charcoal sm:text-5xl">
-      Selected work
-    </h1>
-    <p class="reveal mt-4 max-w-xl text-lg leading-relaxed text-charcoal/75">
-      A selection of original work — produced, mixed, and mastered.
-    </p>
+  <!-- Page header -->
+  <section class="reveal-group mx-auto max-w-6xl px-5 pt-16 sm:px-8 sm:pt-24">
+    <div class="flex items-end justify-between gap-6">
+      <div class="max-w-2xl">
+        <p class="reveal eyebrow">Portfolio</p>
+        <h1 class="reveal-text mt-5 text-[clamp(2.5rem,8vw,5rem)] font-medium leading-[0.95] text-charcoal">
+          Selected work
+        </h1>
+        <p class="reveal mt-5 max-w-xl text-lg leading-relaxed text-charcoal/75">
+          A selection of original work — produced, mixed, and mastered.
+        </p>
+      </div>
+      <p class="reveal hidden font-mono text-xs uppercase tracking-[0.18em] text-charcoal/40 sm:block">
+        {String(TRACKS.length).padStart(2, "0")} tracks
+      </p>
+    </div>
   </section>
 
   <!-- Track grid -->
-  <section class="reveal-group mx-auto max-w-6xl px-5 py-12 sm:px-8 sm:py-14">
+  <section class="reveal-group mx-auto max-w-6xl px-5 py-12 sm:px-8 sm:py-16">
     <div class="grid gap-5 sm:grid-cols-2">
       {
-        TRACKS.map((t) => (
+        TRACKS.map((t, i) => (
           <TrackCard
             class="reveal"
+            index={String(i + 1).padStart(2, "0")}
             title={t.title}
             embedUrl={soundcloudEmbed(t.slug)}
             genre={t.genre}
@@ -45,12 +55,13 @@ import { TRACKS, MIX_DEMOS, soundcloudEmbed } from "../config";
   }
   {
     MIX_DEMOS.length > 0 && (
-      <section class="reveal-group mx-auto max-w-4xl px-5 pb-24 sm:px-8">
-        <p class="reveal eyebrow text-center">Hear the difference</p>
-        <h2 class="reveal mt-3 text-center text-3xl font-medium text-charcoal sm:text-4xl">
-          Before &amp; after
-        </h2>
-        <p class="reveal mx-auto mt-3 max-w-xl text-center leading-relaxed text-charcoal/70">
+      <section class="reveal-group mx-auto max-w-4xl px-5 pb-20 sm:px-8">
+        <SectionHeader
+          index="✶"
+          eyebrow="Hear the difference"
+          title="Before & after"
+        />
+        <p class="reveal mt-4 max-w-xl leading-relaxed text-charcoal/70">
           The same clip, raw vs. mixed — toggle to hear the engineering.
         </p>
         <div class="mt-9 grid gap-5">
@@ -67,9 +78,15 @@ import { TRACKS, MIX_DEMOS, soundcloudEmbed } from "../config";
       </section>
     )
   }
+
+  <CTABand
+    eyebrow="Like what you hear?"
+    title="Let's make yours sound like this."
+    buttonLabel="Start a project"
+  />
 </Layout>
 
 <script>
-  import { initReveals } from "../scripts/motion";
-  initReveals();
+  import { initMotion } from "../scripts/motion";
+  initMotion();
 </script>

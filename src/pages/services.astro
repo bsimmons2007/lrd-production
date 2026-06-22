@@ -1,24 +1,26 @@
 ---
 import Layout from "../layouts/Layout.astro";
 import ServiceCard from "../components/ServiceCard.astro";
+import CTABand from "../components/CTABand.astro";
 ---
 
 <Layout
   title="Services"
   description="Recording, mixing, and mastering with LRD Production. Hands-on tracking support and polished, release-ready mixes for any genre."
 >
-  <section class="reveal-group mx-auto max-w-6xl px-5 py-16 sm:px-8 sm:py-20">
+  <section class="reveal-group mx-auto max-w-6xl px-5 py-16 sm:px-8 sm:py-24">
     <p class="reveal eyebrow">Services</p>
-    <h1 class="reveal mt-3 text-4xl font-medium text-charcoal sm:text-5xl">
+    <h1 class="reveal-text mt-5 text-[clamp(2.5rem,8vw,5rem)] font-medium leading-[0.95] text-charcoal">
       What I offer
     </h1>
-    <p class="reveal mt-4 max-w-xl text-lg leading-relaxed text-charcoal/75">
+    <p class="reveal mt-5 max-w-xl text-lg leading-relaxed text-charcoal/75">
       Two focused services, one goal — getting your music sounding its best.
     </p>
 
-    <div class="mt-10 grid items-stretch gap-5 md:grid-cols-2 md:gap-6">
+    <div class="mt-12 grid items-stretch gap-5 md:grid-cols-2 md:gap-6">
       <div class="reveal h-full">
         <ServiceCard
+          index="01"
           title="Recording"
           description="Need a recording engineer in your corner? Whether it's vocals, drums, or a full session, I'll set up the room and capture clean, usable takes — or walk you through doing it yourself."
           idealFor="Ideal if you want hands-on recording support without the guesswork."
@@ -43,6 +45,7 @@ import ServiceCard from "../components/ServiceCard.astro";
 
       <div class="reveal h-full">
         <ServiceCard
+          index="02"
           title="Mixing & Mastering"
           description="Got tracks that need to sound finished? I handle mixing and mastering — balancing, polishing, and production assistance when you want it — to make your music sound its best."
           idealFor="Perfect for taking any audio project across the finish line."
@@ -67,9 +70,15 @@ import ServiceCard from "../components/ServiceCard.astro";
       </div>
     </div>
   </section>
+
+  <CTABand
+    eyebrow="Ready when you are"
+    title="Tell me about your project."
+    buttonLabel="Start a project"
+  />
 </Layout>
 
 <script>
-  import { initReveals } from "../scripts/motion";
-  initReveals();
+  import { initMotion } from "../scripts/motion";
+  initMotion();
 </script>
