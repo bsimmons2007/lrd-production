@@ -71,8 +71,8 @@ export const FEATURED_TRACK_SLUG = "cirrus";
 /** Build a brand-tinted, lazy-friendly SoundCloud embed URL from a slug. */
 export function soundcloudEmbed(slug: string): string {
   const trackUrl = encodeURIComponent(`https://soundcloud.com/d4ed41us/${slug}`);
-  // color=%23C25A2B (burnt-orange), auto_play off, show artist, hide related
-  return `https://w.soundcloud.com/player/?url=${trackUrl}&color=%23C25A2B&auto_play=false&show_user=true&hide_related=true`;
+  // color=%230A7A57 (aurora green), auto_play off, show artist, hide related
+  return `https://w.soundcloud.com/player/?url=${trackUrl}&color=%230A7A57&auto_play=false&show_user=true&hide_related=true`;
 }
 
 /* ------------------------------------------------------------------ *

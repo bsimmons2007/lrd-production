@@ -6,14 +6,14 @@
  * Tokens below become Tailwind utilities (e.g. --color-burnt → bg-burnt)
  * ================================================================== */
 @theme {
-  /* Colors */
-  --color-paper: #f4ebdd; /* primary background */
-  --color-charcoal: #2b2622; /* primary text — never pure black */
-  --color-burnt: #c25a2b; /* primary accent / CTAs */
-  --color-amber: #e0922f; /* secondary accent / glow */
-  --color-oxblood: #7a2e25; /* deep accent / hovers */
-  --color-sand: #e7d9c3; /* surfaces / cards */
-  --color-ink: #201915; /* deepest brown-black, dark bands */
+  /* Colors — aurora borealis (frost): cool light base, green/teal/blue glow */
+  --color-paper: #e9f1ef; /* frost background */
+  --color-charcoal: #15292b; /* cool deep ink — primary text, never pure black */
+  --color-burnt: #0a7a57; /* aurora green — primary accent / CTAs / links */
+  --color-amber: #1fb6be; /* aurora teal/cyan — secondary accent / glow */
+  --color-oxblood: #15607a; /* deep aurora blue — deep accent / hovers */
+  --color-sand: #dce8e5; /* cool pale surfaces / cards */
+  --color-ink: #0b1f26; /* night-sky deep navy-teal — dark bands */
 
   /* Fonts */
   --font-display: "Fraunces", ui-serif, Georgia, "Times New Roman", serif;
@@ -379,4 +379,60 @@
   .scroll-cue svg {
     animation: scroll-bob 1.8s ease-in-out infinite;
   }
+}
+
+/* Aurora glow — soft northern-lights wash (decorative). On the frost
+   background it's a gentle tint; on dark bands it screens to a real glow. */
+.aurora-glow {
+  position: absolute;
+  inset: 0;
+  overflow: hidden;
+  pointer-events: none;
+}
+.aurora-glow::before {
+  content: "";
+  position: absolute;
+  left: 50%;
+  top: -12%;
+  width: 130%;
+  height: 72%;
+  transform: translateX(-50%);
+  background:
+    radial-gradient(
+      38% 60% at 26% 30%,
+      rgba(10, 122, 87, 0.22),
+      transparent 70%
+    ),
+    radial-gradient(
+      34% 55% at 60% 16%,
+      rgba(31, 182, 190, 0.2),
+      transparent 70%
+    ),
+    radial-gradient(
+      40% 60% at 84% 36%,
+      rgba(21, 96, 122, 0.18),
+      transparent 72%
+    );
+  filter: blur(30px);
+}
+.aurora-glow--dark::before {
+  height: 85%;
+  mix-blend-mode: screen;
+  filter: blur(36px);
+  background:
+    radial-gradient(
+      40% 70% at 24% 18%,
+      rgba(45, 222, 160, 0.28),
+      transparent 70%
+    ),
+    radial-gradient(
+      36% 60% at 58% 0%,
+      rgba(34, 211, 220, 0.24),
+      transparent 70%
+    ),
+    radial-gradient(
+      42% 70% at 86% 24%,
+      rgba(70, 150, 230, 0.22),
+      transparent 72%
+    );
 }

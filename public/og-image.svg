@@ -1,28 +1,40 @@
 <svg xmlns="http://www.w3.org/2000/svg" width="1200" height="630" viewBox="0 0 1200 630" role="img" aria-label="LRD Production — Recording, Mixing, Mastering">
-  <!-- paper -->
-  <rect width="1200" height="630" fill="#F4EBDD"/>
-  <!-- warm record-sleeve frame -->
-  <rect x="36" y="36" width="1128" height="558" rx="10" fill="none" stroke="#7A2E25" stroke-width="2" opacity="0.45"/>
-  <rect x="48" y="48" width="1104" height="534" rx="6" fill="none" stroke="#C25A2B" stroke-width="1" opacity="0.35"/>
+  <defs>
+    <linearGradient id="aur" x1="0" y1="0" x2="1" y2="0">
+      <stop offset="0" stop-color="#0A7A57"/>
+      <stop offset="0.5" stop-color="#1FB6BE"/>
+      <stop offset="1" stop-color="#3B82C4"/>
+    </linearGradient>
+  </defs>
+  <!-- frost -->
+  <rect width="1200" height="630" fill="#E9F1EF"/>
+
+  <!-- faint aurora ribbons -->
+  <path d="M40 112 Q360 36 660 104 T1160 86" stroke="url(#aur)" stroke-width="7" fill="none" opacity="0.20"/>
+  <path d="M40 144 Q420 78 740 138 T1160 126" stroke="url(#aur)" stroke-width="4" fill="none" opacity="0.13"/>
+
+  <!-- cool frame -->
+  <rect x="36" y="36" width="1128" height="558" rx="10" fill="none" stroke="#15607A" stroke-width="2" opacity="0.4"/>
+  <rect x="48" y="48" width="1104" height="534" rx="6" fill="none" stroke="#0A7A57" stroke-width="1" opacity="0.32"/>
 
   <!-- eyebrow -->
-  <text x="600" y="150" text-anchor="middle"
+  <text x="600" y="222" text-anchor="middle"
         font-family="Arial, Helvetica, sans-serif" font-weight="700"
-        font-size="22" letter-spacing="7" fill="#7A2E25">FREELANCE AUDIO ENGINEER &amp; MUSIC PRODUCER</text>
+        font-size="22" letter-spacing="7" fill="#15607A">FREELANCE AUDIO ENGINEER &amp; MUSIC PRODUCER</text>
 
   <!-- type-mark -->
-  <text x="600" y="365" text-anchor="middle"
+  <text x="600" y="408" text-anchor="middle"
         font-family="Georgia, 'Times New Roman', serif" font-weight="600"
-        font-size="210" letter-spacing="4" fill="#2B2622">LRD</text>
-  <text x="612" y="430" text-anchor="middle"
+        font-size="200" letter-spacing="4" fill="#15292B">LRD</text>
+  <text x="612" y="468" text-anchor="middle"
         font-family="Arial, Helvetica, sans-serif" font-weight="700"
-        font-size="40" letter-spacing="28" fill="#7A2E25">PRODUCTION</text>
+        font-size="38" letter-spacing="26" fill="#15607A">PRODUCTION</text>
 
-  <!-- burnt rule -->
-  <rect x="470" y="470" width="260" height="3" rx="1.5" fill="#C25A2B"/>
+  <!-- aurora rule -->
+  <rect x="470" y="504" width="260" height="4" rx="2" fill="url(#aur)"/>
 
   <!-- services tagline -->
-  <text x="600" y="528" text-anchor="middle"
+  <text x="600" y="558" text-anchor="middle"
         font-family="Georgia, 'Times New Roman', serif" font-style="italic"
-        font-size="34" letter-spacing="3" fill="#2B2622">Recording &#183; Mixing &#183; Mastering</text>
+        font-size="32" letter-spacing="3" fill="#15292B">Recording &#183; Mixing &#183; Mastering</text>
 </svg>
