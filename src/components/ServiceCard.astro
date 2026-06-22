@@ -1,0 +1,69 @@
+---
+/**
+ * ServiceCard — a full service offering for the Services page.
+ * title, description, "ideal for" line, and a CTA to the contact page.
+ * Optional `icon` slot for a small decorative glyph.
+ */
+interface Props {
+  title: string;
+  description: string;
+  idealFor: string;
+  href?: string;
+  ctaLabel?: string;
+  class?: string;
+}
+const {
+  title,
+  description,
+  idealFor,
+  href = "/contact",
+  ctaLabel = "Start a project",
+  class: className = "",
+} = Astro.props;
+
+const hasIcon = Astro.slots.has("icon");
+---
+
+<article
+  class:list={[
+    "flex h-full flex-col rounded-2xl border border-charcoal/10 bg-sand/50 p-7 shadow-[var(--shadow-warm)] transition-shadow duration-300 hover:shadow-[var(--shadow-warm-lg)] sm:p-8",
+    className,
+  ]}
+>
+  {
+    hasIcon && (
+      <div class="mb-5 inline-flex h-12 w-12 items-center justify-center rounded-full bg-burnt/10 text-burnt">
+        <slot name="icon" />
+      </div>
+    )
+  }
+
+  <h3 class="text-2xl font-medium text-charcoal sm:text-[1.7rem]">{title}</h3>
+
+  <p class="mt-4 leading-relaxed text-charcoal/80">{description}</p>
+
+  <p class="mt-5 border-l-2 border-burnt/40 pl-4 text-sm leading-relaxed text-charcoal/70">
+    {idealFor}
+  </p>
+
+  <div class="mt-auto pt-7">
+    <a
+      href={href}
+      class="inline-flex items-center gap-2 rounded-full bg-burnt px-6 py-3 text-sm font-semibold text-paper transition-colors hover:bg-oxblood focus-visible:bg-oxblood"
+    >
+      {ctaLabel}
+      <svg
+        class="h-4 w-4"
+        viewBox="0 0 24 24"
+        fill="none"
+        stroke="currentColor"
+        stroke-width="2"
+        stroke-linecap="round"
+        stroke-linejoin="round"
+        aria-hidden="true"
+      >
+        <path d="M5 12h14M13 6l6 6-6 6"></path>
+      </svg>
+    </a>
+  </div>
+</article>

@@ -1,0 +1,60 @@
+---
+/**
+ * StatusBadge — availability pill driven by `acceptingProjects` in config.
+ *   true  → "Currently taking projects" (pulsing burnt-orange dot)
+ *   false → "Booked — check back soon."
+ */
+import { acceptingProjects } from "../config";
+
+interface Props {
+  class?: string;
+}
+const { class: className = "" } = Astro.props;
+
+const label = acceptingProjects
+  ? "Currently taking projects"
+  : "Booked — check back soon.";
+---
+
+<span
+  class:list={[
+    "inline-flex items-center gap-2.5 rounded-full border px-4 py-1.5 text-sm font-medium",
+    acceptingProjects
+      ? "border-burnt/30 bg-burnt/5 text-oxblood"
+      : "border-charcoal/20 bg-charcoal/5 text-charcoal/70",
+    className,
+  ]}
+>
+  <span class="status-dot relative inline-flex h-2.5 w-2.5">
+    {
+      acceptingProjects && (
+        <span class="status-ping absolute inline-flex h-full w-full rounded-full bg-burnt opacity-60" />
+      )
+    }
+    <span
+      class:list={[
+        "relative inline-flex h-2.5 w-2.5 rounded-full",
+        acceptingProjects ? "bg-burnt" : "bg-charcoal/40",
+      ]}></span>
+  </span>
+  {label}
+</span>
+
+<style>
+  @keyframes status-ping {
+    0% {
+      transform: scale(1);
+      opacity: 0.6;
+    }
+    75%,
+    100% {
+      transform: scale(2.4);
+      opacity: 0;
+    }
+  }
+  @media (prefers-reduced-motion: no-preference) {
+    .status-ping {
+      animation: status-ping 2.4s cubic-bezier(0, 0, 0.2, 1) infinite;
+    }
+  }
+</style>

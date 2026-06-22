@@ -1,0 +1,75 @@
+---
+import Layout from "../layouts/Layout.astro";
+import ServiceCard from "../components/ServiceCard.astro";
+---
+
+<Layout
+  title="Services"
+  description="Recording, mixing, and mastering with LRD Production. Hands-on tracking support and polished, release-ready mixes for any genre."
+>
+  <section class="reveal-group mx-auto max-w-6xl px-5 py-16 sm:px-8 sm:py-20">
+    <p class="reveal eyebrow">Services</p>
+    <h1 class="reveal mt-3 text-4xl font-medium text-charcoal sm:text-5xl">
+      What I offer
+    </h1>
+    <p class="reveal mt-4 max-w-xl text-lg leading-relaxed text-charcoal/75">
+      Two focused services, one goal — getting your music sounding its best.
+    </p>
+
+    <div class="mt-10 grid items-stretch gap-5 md:grid-cols-2 md:gap-6">
+      <div class="reveal h-full">
+        <ServiceCard
+          title="Recording"
+          description="Need a recording engineer in your corner? Whether it's vocals, drums, or a full session, I'll set up the room and capture clean, usable takes — or walk you through doing it yourself."
+          idealFor="Ideal if you want hands-on recording support without the guesswork."
+        >
+          <svg
+            slot="icon"
+            class="h-6 w-6"
+            viewBox="0 0 24 24"
+            fill="none"
+            stroke="currentColor"
+            stroke-width="1.8"
+            stroke-linecap="round"
+            stroke-linejoin="round"
+            aria-hidden="true"
+          >
+            <rect x="9" y="2" width="6" height="11" rx="3"></rect>
+            <path d="M5 10a7 7 0 0 0 14 0"></path>
+            <path d="M12 17v4M8 21h8"></path>
+          </svg>
+        </ServiceCard>
+      </div>
+
+      <div class="reveal h-full">
+        <ServiceCard
+          title="Mixing & Mastering"
+          description="Got tracks that need to sound finished? I handle mixing and mastering — balancing, polishing, and production assistance when you want it — to make your music sound its best."
+          idealFor="Perfect for taking any audio project across the finish line."
+        >
+          <svg
+            slot="icon"
+            class="h-6 w-6"
+            viewBox="0 0 24 24"
+            fill="none"
+            stroke="currentColor"
+            stroke-width="1.8"
+            stroke-linecap="round"
+            stroke-linejoin="round"
+            aria-hidden="true"
+          >
+            <path d="M4 6h8M18 6h2M4 12h2M10 12h10M4 18h10M18 18h2"></path>
+            <circle cx="15" cy="6" r="2"></circle>
+            <circle cx="8" cy="12" r="2"></circle>
+            <circle cx="15" cy="18" r="2"></circle>
+          </svg>
+        </ServiceCard>
+      </div>
+    </div>
+  </section>
+</Layout>
+
+<script>
+  import { initReveals } from "../scripts/motion";
+  initReveals();
+</script>

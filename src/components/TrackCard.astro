@@ -1,0 +1,85 @@
+---
+/**
+ * TrackCard — a single piece of work.
+ *
+ * Today it renders a brand-tinted, lazy-loaded SoundCloud embed. It's
+ * structured so a self-hosted wavesurfer.js player can drop in later:
+ * pass `audioSrc` and the SoundCloud iframe is replaced by a mount point
+ * (wire up wavesurfer in a client script keyed off [data-wavesurfer]).
+ */
+interface Props {
+  title: string;
+  embedUrl: string;
+  genre?: string;
+  role?: string;
+  year?: string;
+  /** When present, render a self-hosted player mount instead of SoundCloud. */
+  audioSrc?: string;
+  /** iframe loading strategy; lazy by default since embeds are heavy. */
+  loading?: "lazy" | "eager";
+  class?: string;
+}
+const {
+  title,
+  embedUrl,
+  genre,
+  role,
+  year,
+  audioSrc,
+  loading = "lazy",
+  class: className = "",
+} = Astro.props;
+
+const tags = [genre, role, year].filter(Boolean) as string[];
+---
+
+<article
+  class:list={[
+    "group flex flex-col gap-4 rounded-2xl border border-charcoal/10 bg-sand/50 p-4 shadow-[var(--shadow-warm)] transition-shadow duration-300 hover:shadow-[var(--shadow-warm-lg)] sm:p-5",
+    className,
+  ]}
+>
+  <header class="flex flex-wrap items-baseline justify-between gap-x-3 gap-y-1">
+    <h3 class="text-xl font-medium text-charcoal sm:text-2xl">{title}</h3>
+    {
+      tags.length > 0 && (
+        <ul class="flex flex-wrap gap-1.5">
+          {tags.map((t) => (
+            <li class="rounded-full bg-paper px-2.5 py-0.5 text-xs font-medium text-oxblood">
+              {t}
+            </li>
+          ))}
+        </ul>
+      )
+    }
+  </header>
+
+  {
+    audioSrc ? (
+      /* TODO (future): mount wavesurfer.js here, reading [data-audio]. */
+      <div
+        data-wavesurfer
+        data-audio={audioSrc}
+        class="flex h-[120px] items-center justify-center rounded-lg bg-paper text-sm text-charcoal/50"
+      >
+        <audio controls preload="none" src={audioSrc} class="w-full">
+          <track kind="captions" />
+        </audio>
+      </div>
+    ) : (
+      <div class="overflow-hidden rounded-lg">
+        <iframe
+          src={embedUrl}
+          title={`${title} — SoundCloud player`}
+          width="100%"
+          height="166"
+          frameborder="no"
+          loading={loading}
+          scrolling="no"
+          allow="autoplay"
+          class="block w-full"
+        />
+      </div>
+    )
+  }
+</article>

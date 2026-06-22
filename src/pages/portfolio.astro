@@ -1,0 +1,75 @@
+---
+import Layout from "../layouts/Layout.astro";
+import TrackCard from "../components/TrackCard.astro";
+import BeforeAfter from "../components/BeforeAfter.astro";
+import { TRACKS, MIX_DEMOS, soundcloudEmbed } from "../config";
+---
+
+<Layout
+  title="Portfolio"
+  description="A selection of original work by LRD Production — produced, mixed, and mastered. Listen on SoundCloud."
+>
+  <!-- Intro -->
+  <section class="reveal-group mx-auto max-w-6xl px-5 pt-16 sm:px-8 sm:pt-20">
+    <p class="reveal eyebrow">Portfolio</p>
+    <h1 class="reveal mt-3 text-4xl font-medium text-charcoal sm:text-5xl">
+      Selected work
+    </h1>
+    <p class="reveal mt-4 max-w-xl text-lg leading-relaxed text-charcoal/75">
+      A selection of original work — produced, mixed, and mastered.
+    </p>
+  </section>
+
+  <!-- Track grid -->
+  <section class="reveal-group mx-auto max-w-6xl px-5 py-12 sm:px-8 sm:py-14">
+    <div class="grid gap-5 sm:grid-cols-2">
+      {
+        TRACKS.map((t) => (
+          <TrackCard
+            class="reveal"
+            title={t.title}
+            embedUrl={soundcloudEmbed(t.slug)}
+            genre={t.genre}
+            role={t.role}
+            year={t.year}
+            audioSrc={t.audioSrc}
+          />
+        ))
+      }
+    </div>
+  </section>
+
+  {
+    /* Before/After mix demos — renders only when MIX_DEMOS has entries
+       (see src/config.ts), so nothing ships broken. */
+  }
+  {
+    MIX_DEMOS.length > 0 && (
+      <section class="reveal-group mx-auto max-w-4xl px-5 pb-24 sm:px-8">
+        <p class="reveal eyebrow text-center">Hear the difference</p>
+        <h2 class="reveal mt-3 text-center text-3xl font-medium text-charcoal sm:text-4xl">
+          Before &amp; after
+        </h2>
+        <p class="reveal mx-auto mt-3 max-w-xl text-center leading-relaxed text-charcoal/70">
+          The same clip, raw vs. mixed — toggle to hear the engineering.
+        </p>
+        <div class="mt-9 grid gap-5">
+          {MIX_DEMOS.map((d) => (
+            <div class="reveal">
+              <BeforeAfter
+                label={d.label}
+                rawSrc={d.rawSrc}
+                mixedSrc={d.mixedSrc}
+              />
+            </div>
+          ))}
+        </div>
+      </section>
+    )
+  }
+</Layout>
+
+<script>
+  import { initReveals } from "../scripts/motion";
+  initReveals();
+</script>

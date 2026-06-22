@@ -1,0 +1,170 @@
+---
+import Layout from "../layouts/Layout.astro";
+import TypeMark from "../components/TypeMark.astro";
+import StatusBadge from "../components/StatusBadge.astro";
+import TrackCard from "../components/TrackCard.astro";
+import { SITE, FEATURED_TRACK_SLUG, soundcloudEmbed } from "../config";
+---
+
+<Layout>
+  <!-- ============================ HERO ============================ -->
+  <section id="hero" class="relative overflow-hidden">
+    <div class="hero-grain" aria-hidden="true"></div>
+
+    <div
+      class="relative mx-auto flex max-w-4xl flex-col items-center px-5 py-24 text-center sm:py-32"
+    >
+      <h1 class="leading-none">
+        <span class="sr-only">LRD Production</span>
+        <span aria-hidden="true" class="block">
+          <TypeMark variant="hero" />
+        </span>
+      </h1>
+
+      <!-- Needle-trace divider: draws itself left → right on load -->
+      <svg
+        class="hero-divider mt-9 h-7 w-[min(420px,78%)] text-burnt"
+        viewBox="0 0 240 40"
+        preserveAspectRatio="none"
+        fill="none"
+        aria-hidden="true"
+      >
+        <path
+          class="hero-line"
+          d="M0 20 Q 15 6 30 20 T 60 20 T 90 20 T 120 20 T 150 20 T 180 20 T 210 20 T 240 20"
+          stroke="currentColor"
+          stroke-width="2.5"
+          stroke-linecap="round"
+        ></path>
+      </svg>
+
+      <p
+        class="hero-tagline mt-9 max-w-xl text-lg leading-relaxed text-charcoal/80 sm:text-xl"
+      >
+        {SITE.tagline}
+      </p>
+
+      <div class="hero-badge mt-9">
+        <StatusBadge />
+      </div>
+
+      <div class="hero-cta mt-9 flex flex-col items-center gap-5 sm:flex-row">
+        <a href="/contact" class="btn-primary">Get in touch</a>
+        <a href="/portfolio" class="link-arrow">
+          Hear the work
+          <svg
+            class="h-4 w-4"
+            viewBox="0 0 24 24"
+            fill="none"
+            stroke="currentColor"
+            stroke-width="2"
+            stroke-linecap="round"
+            stroke-linejoin="round"
+            aria-hidden="true"
+          >
+            <path d="M5 12h14M13 6l6 6-6 6"></path>
+          </svg>
+        </a>
+      </div>
+    </div>
+  </section>
+
+  <!-- ======================= FEATURED TRACK ======================= -->
+  <section class="reveal-group mx-auto max-w-3xl px-5 py-16 sm:px-8 sm:py-20">
+    <p class="reveal eyebrow text-center">Featured track</p>
+    <h2
+      class="reveal mt-3 text-center text-3xl font-medium text-charcoal sm:text-4xl"
+    >
+      Straight from the catalogue
+    </h2>
+    <div class="reveal mt-9">
+      <TrackCard title="Cirrus" embedUrl={soundcloudEmbed(FEATURED_TRACK_SLUG)} />
+    </div>
+  </section>
+
+  <!-- ======================= SERVICES TEASER ====================== -->
+  <section class="reveal-group mx-auto max-w-5xl px-5 py-16 sm:px-8 sm:py-20">
+    <p class="reveal eyebrow text-center">What I do</p>
+    <h2
+      class="reveal mt-3 text-center text-3xl font-medium text-charcoal sm:text-4xl"
+    >
+      Two ways I can help
+    </h2>
+
+    <div class="mt-10 grid gap-5 sm:grid-cols-2">
+      <a
+        href="/services"
+        class="reveal group flex flex-col rounded-2xl border border-charcoal/10 bg-sand/50 p-7 shadow-[var(--shadow-warm)] transition-shadow duration-300 hover:shadow-[var(--shadow-warm-lg)]"
+      >
+        <h3 class="text-2xl font-medium text-charcoal">Recording</h3>
+        <p class="mt-3 leading-relaxed text-charcoal/75">
+          Clean, usable takes — set up and captured in the room, or guided
+          through doing it yourself.
+        </p>
+        <span class="link-arrow mt-6">
+          Explore services
+          <svg
+            class="h-4 w-4 transition-transform group-hover:translate-x-1"
+            viewBox="0 0 24 24"
+            fill="none"
+            stroke="currentColor"
+            stroke-width="2"
+            stroke-linecap="round"
+            stroke-linejoin="round"
+            aria-hidden="true"
+          >
+            <path d="M5 12h14M13 6l6 6-6 6"></path>
+          </svg>
+        </span>
+      </a>
+
+      <a
+        href="/services"
+        class="reveal group flex flex-col rounded-2xl border border-charcoal/10 bg-sand/50 p-7 shadow-[var(--shadow-warm)] transition-shadow duration-300 hover:shadow-[var(--shadow-warm-lg)]"
+      >
+        <h3 class="text-2xl font-medium text-charcoal">Mixing &amp; Mastering</h3>
+        <p class="mt-3 leading-relaxed text-charcoal/75">
+          Balanced, polished, and finished — production assistance included when
+          you want it.
+        </p>
+        <span class="link-arrow mt-6">
+          Explore services
+          <svg
+            class="h-4 w-4 transition-transform group-hover:translate-x-1"
+            viewBox="0 0 24 24"
+            fill="none"
+            stroke="currentColor"
+            stroke-width="2"
+            stroke-linecap="round"
+            stroke-linejoin="round"
+            aria-hidden="true"
+          >
+            <path d="M5 12h14M13 6l6 6-6 6"></path>
+          </svg>
+        </span>
+      </a>
+    </div>
+  </section>
+
+  <!-- ======================== ABOUT TEASER ======================== -->
+  <section
+    class="reveal-group mx-auto max-w-3xl px-5 py-16 text-center sm:px-8 sm:py-24"
+  >
+    <p class="reveal eyebrow">The story</p>
+    <blockquote
+      class="reveal mt-5 font-display text-2xl leading-snug text-charcoal sm:text-[2rem]"
+    >
+      I'm an aspiring audio engineer based in Aurora, Illinois, with over a
+      decade behind the piano. There's more to the story.
+    </blockquote>
+    <div class="reveal mt-9">
+      <a href="/about" class="btn-secondary">Learn more</a>
+    </div>
+  </section>
+</Layout>
+
+<script>
+  import { initHero, initReveals } from "../scripts/motion";
+  initHero();
+  initReveals();
+</script>

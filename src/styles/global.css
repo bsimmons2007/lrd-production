@@ -1,0 +1,189 @@
+@import "tailwindcss";
+
+/* ------------------------------------------------------------------ *
+ * LRD Production — brand system (warm analog / vintage)
+ * Tailwind v4 CSS-first theme. Tokens below become utilities, e.g.
+ * --color-burnt  ->  bg-burnt / text-burnt / border-burnt
+ * ------------------------------------------------------------------ */
+@theme {
+  /* Colors */
+  --color-paper: #f4ebdd; /* primary background */
+  --color-charcoal: #2b2622; /* primary text — never pure black */
+  --color-burnt: #c25a2b; /* primary accent / CTAs (burnt-orange) */
+  --color-amber: #e0922f; /* secondary accent / glow */
+  --color-oxblood: #7a2e25; /* deep accent / hovers */
+  --color-sand: #e7d9c3; /* surfaces / cards */
+
+  /* Fonts */
+  --font-display: "Fraunces", ui-serif, Georgia, "Times New Roman", serif;
+  --font-body: "Inter", ui-sans-serif, system-ui, -apple-system, "Segoe UI",
+    sans-serif;
+
+  /* Soft, warm separation instead of harsh shadows */
+  --shadow-warm: 0 1px 2px rgba(43, 38, 34, 0.04),
+    0 8px 24px -12px rgba(122, 46, 37, 0.18);
+  --shadow-warm-lg: 0 2px 4px rgba(43, 38, 34, 0.05),
+    0 18px 40px -16px rgba(122, 46, 37, 0.22);
+}
+
+/* ------------------------------------------------------------------ *
+ * Base
+ * ------------------------------------------------------------------ */
+@layer base {
+  html {
+    font-family: var(--font-body);
+    color: var(--color-charcoal);
+    background-color: var(--color-paper);
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+    text-rendering: optimizeLegibility;
+    scroll-behavior: smooth;
+    /* offset for the sticky header when jumping to in-page anchors */
+    scroll-padding-top: 6rem;
+  }
+
+  body {
+    background-color: var(--color-paper);
+    min-height: 100svh;
+  }
+
+  h1,
+  h2,
+  h3,
+  h4,
+  .font-display {
+    font-family: var(--font-display);
+    font-optical-sizing: auto;
+  }
+
+  /* Accessible, on-brand focus ring */
+  :focus-visible {
+    outline: 2px solid var(--color-burnt);
+    outline-offset: 3px;
+    border-radius: 3px;
+  }
+
+  ::selection {
+    background: var(--color-amber);
+    color: var(--color-charcoal);
+  }
+}
+
+/* ------------------------------------------------------------------ *
+ * Paper grain + film grain textures
+ * grain.svg is a tileable fractalNoise raster (see /public/textures).
+ * Kept tasteful and low-opacity; never blocks pointer events.
+ * ------------------------------------------------------------------ */
+.grain-overlay {
+  position: fixed;
+  inset: 0;
+  z-index: 60;
+  pointer-events: none;
+  background-image: url("/textures/grain.svg");
+  background-repeat: repeat;
+  background-size: 220px 220px;
+  opacity: 0.05;
+  mix-blend-mode: multiply;
+}
+
+/* Stronger film grain, scoped to the home hero */
+.hero-grain {
+  position: absolute;
+  inset: -25%;
+  pointer-events: none;
+  background-image: url("/textures/grain.svg");
+  background-repeat: repeat;
+  background-size: 200px 200px;
+  opacity: 0.11;
+  mix-blend-mode: multiply;
+}
+
+@keyframes grain-flicker {
+  0%,
+  100% {
+    transform: translate(0, 0);
+  }
+  20% {
+    transform: translate(-3%, 2%);
+  }
+  40% {
+    transform: translate(2%, -3%);
+  }
+  60% {
+    transform: translate(-2%, -2%);
+  }
+  80% {
+    transform: translate(3%, 1%);
+  }
+}
+
+/* Animate the hero grain only when motion is welcome */
+@media (prefers-reduced-motion: no-preference) {
+  .hero-grain {
+    animation: grain-flicker 1.2s steps(5) infinite;
+  }
+}
+
+/* ------------------------------------------------------------------ *
+ * Motion gating
+ * The <html> element gets `.motion-ok` (set by an inline head script)
+ * only when JS is on AND reduced-motion is NOT requested. Initial
+ * hidden states live behind that class so that:
+ *   - no-JS users see fully-rendered content
+ *   - reduced-motion users see fully-rendered content
+ *   - everyone else gets the entrance/reveal animations
+ * ------------------------------------------------------------------ */
+.motion-ok .reveal {
+  opacity: 0;
+  will-change: opacity, transform;
+}
+/* Hero entrance targets start hidden only when we're going to animate them */
+.motion-ok #hero .mark-lrd,
+.motion-ok #hero .mark-production,
+.motion-ok #hero .hero-tagline,
+.motion-ok #hero .hero-badge,
+.motion-ok #hero .hero-cta {
+  opacity: 0;
+  will-change: opacity, transform;
+}
+
+/* Hard safety net: neutralize CSS animation/transition under reduced motion */
+@media (prefers-reduced-motion: reduce) {
+  html {
+    scroll-behavior: auto;
+  }
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.001ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.001ms !important;
+  }
+}
+
+/* ------------------------------------------------------------------ *
+ * Small shared utilities
+ * ------------------------------------------------------------------ */
+@layer components {
+  /* Wide, letter-spaced label used across the brand */
+  .eyebrow {
+    font-family: var(--font-body);
+    text-transform: uppercase;
+    letter-spacing: 0.22em;
+    font-size: 0.72rem;
+    font-weight: 600;
+    color: var(--color-oxblood);
+  }
+
+  /* Shared buttons / links */
+  .btn-primary {
+    @apply inline-flex items-center justify-center gap-2 rounded-full bg-burnt px-7 py-3.5 text-sm font-semibold text-paper transition-colors duration-200 hover:bg-oxblood;
+    box-shadow: var(--shadow-warm);
+  }
+  .btn-secondary {
+    @apply inline-flex items-center justify-center gap-2 rounded-full border border-charcoal/30 px-6 py-3 text-sm font-semibold text-charcoal transition-colors duration-200 hover:border-charcoal hover:bg-charcoal hover:text-paper;
+  }
+  .link-arrow {
+    @apply inline-flex items-center gap-1.5 text-sm font-semibold text-oxblood transition-colors hover:text-burnt;
+  }
+}

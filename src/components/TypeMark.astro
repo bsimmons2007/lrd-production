@@ -1,0 +1,38 @@
+---
+/**
+ * TypeMark — the LRD PRODUCTION text logo (no image file).
+ * Built from text so it stays crisp at any size and animatable.
+ *
+ * variant="header" → compact mark for the sticky header
+ * variant="hero"   → oversized centerpiece for the home hero
+ *
+ * The inner spans carry `.mark-lrd` / `.mark-production` so the hero
+ * entrance timeline can target them (scoped under the hero section).
+ */
+interface Props {
+  variant?: "header" | "hero";
+  class?: string;
+}
+const { variant = "header", class: className = "" } = Astro.props;
+const isHero = variant === "hero";
+---
+
+<span class={`type-mark inline-flex flex-col leading-none ${isHero ? "items-center" : "items-start"} ${className}`}>
+  <span
+    class={`mark-lrd font-display font-medium text-charcoal ${
+      isHero ? "text-[clamp(4.5rem,19vw,10rem)]" : "text-2xl sm:text-[1.6rem]"
+    }`}
+    style="letter-spacing:0.01em"
+  >
+    LRD
+  </span>
+  <span
+    class={`mark-production font-body font-semibold uppercase text-oxblood ${
+      isHero
+        ? "text-[clamp(0.7rem,2.3vw,1.05rem)] tracking-[0.55em] mt-3 pl-[0.55em]"
+        : "text-[0.58rem] tracking-[0.34em] mt-1 pl-[0.34em]"
+    }`}
+  >
+    Production
+  </span>
+</span>

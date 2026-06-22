@@ -1,0 +1,143 @@
+---
+import TypeMark from "./TypeMark.astro";
+import { NAV } from "../config";
+
+const current = Astro.url.pathname.replace(/\/+$/, "") || "/";
+const isActive = (href: string) => (href.replace(/\/+$/, "") || "/") === current;
+---
+
+<header
+  class="sticky top-0 z-40 border-b border-charcoal/10 bg-paper/85 backdrop-blur-md supports-[backdrop-filter]:bg-paper/70"
+>
+  <div
+    class="mx-auto flex h-16 max-w-6xl items-center justify-between px-5 sm:h-20 sm:px-8"
+  >
+    <a
+      href="/"
+      class="rounded-sm transition-opacity hover:opacity-80"
+      aria-label="LRD Production — home"
+    >
+      <TypeMark variant="header" />
+    </a>
+
+    <!-- Desktop nav -->
+    <nav class="hidden items-center gap-8 md:flex" aria-label="Primary">
+      {
+        NAV.map((item) => (
+          <a
+            href={item.href}
+            aria-current={isActive(item.href) ? "page" : undefined}
+            class:list={[
+              "relative text-sm font-medium tracking-wide transition-colors",
+              "after:absolute after:-bottom-1.5 after:left-0 after:h-[2px] after:rounded-full after:bg-burnt after:transition-all after:duration-300",
+              isActive(item.href)
+                ? "text-burnt after:w-full"
+                : "text-charcoal/75 hover:text-oxblood after:w-0 hover:after:w-full",
+            ]}
+          >
+            {item.label}
+          </a>
+        ))
+      }
+    </nav>
+
+    <!-- Mobile toggle -->
+    <button
+      id="nav-toggle"
+      type="button"
+      class="-mr-1.5 inline-flex items-center justify-center rounded-md p-2 text-charcoal transition-colors hover:bg-sand/70 md:hidden"
+      aria-label="Open menu"
+      aria-controls="mobile-menu"
+      aria-expanded="false"
+    >
+      <svg
+        class="nav-icon-open h-6 w-6"
+        viewBox="0 0 24 24"
+        fill="none"
+        stroke="currentColor"
+        stroke-width="1.8"
+        stroke-linecap="round"
+        aria-hidden="true"
+      >
+        <path d="M4 7h16M4 12h16M4 17h16"></path>
+      </svg>
+      <svg
+        class="nav-icon-close hidden h-6 w-6"
+        viewBox="0 0 24 24"
+        fill="none"
+        stroke="currentColor"
+        stroke-width="1.8"
+        stroke-linecap="round"
+        aria-hidden="true"
+      >
+        <path d="M6 6l12 12M18 6L6 18"></path>
+      </svg>
+    </button>
+  </div>
+
+  <!-- Mobile menu -->
+  <div
+    id="mobile-menu"
+    class="hidden border-t border-charcoal/10 bg-paper/95 backdrop-blur-md md:hidden"
+  >
+    <nav class="mx-auto max-w-6xl px-5 py-3" aria-label="Mobile">
+      <ul class="flex flex-col">
+        {
+          NAV.map((item) => (
+            <li>
+              <a
+                href={item.href}
+                aria-current={isActive(item.href) ? "page" : undefined}
+                class:list={[
+                  "block border-b border-charcoal/5 py-3 text-base font-medium transition-colors",
+                  isActive(item.href)
+                    ? "text-burnt"
+                    : "text-charcoal/85 hover:text-oxblood",
+                ]}
+              >
+                {item.label}
+              </a>
+            </li>
+          ))
+        }
+      </ul>
+      <a
+        href="/contact"
+        class="mt-4 mb-2 inline-flex w-full items-center justify-center rounded-full bg-burnt px-5 py-2.5 text-sm font-semibold text-paper transition-colors hover:bg-oxblood"
+      >
+        Get in touch
+      </a>
+    </nav>
+  </div>
+</header>
+
+<script>
+  const btn = document.getElementById("nav-toggle");
+  const menu = document.getElementById("mobile-menu");
+  const iconOpen = btn?.querySelector(".nav-icon-open");
+  const iconClose = btn?.querySelector(".nav-icon-close");
+
+  if (btn && menu) {
+    const setOpen = (open: boolean) => {
+      menu.classList.toggle("hidden", !open);
+      iconOpen?.classList.toggle("hidden", open);
+      iconClose?.classList.toggle("hidden", !open);
+      btn.setAttribute("aria-expanded", String(open));
+      btn.setAttribute("aria-label", open ? "Close menu" : "Open menu");
+    };
+
+    btn.addEventListener("click", () =>
+      setOpen(menu.classList.contains("hidden")),
+    );
+    menu
+      .querySelectorAll("a")
+      .forEach((a) => a.addEventListener("click", () => setOpen(false)));
+    document.addEventListener("keydown", (e) => {
+      if (e.key === "Escape") setOpen(false);
+    });
+    // Reset to closed if resized up to desktop
+    window
+      .matchMedia("(min-width: 768px)")
+      .addEventListener("change", (e) => e.matches && setOpen(false));
+  }
+</script>

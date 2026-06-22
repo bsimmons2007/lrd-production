@@ -1,0 +1,231 @@
+---
+/**
+ * BeforeAfter — A/B mix demo. Plays the SAME clip with an instant toggle
+ * between Raw and Mixed (two self-hosted files) so visitors hear the
+ * engineering improvement at the exact same playhead position.
+ *
+ * Rendered only when MIX_DEMOS has entries (see /portfolio).
+ */
+interface Props {
+  label: string;
+  rawSrc: string;
+  mixedSrc: string;
+}
+const { label, rawSrc, mixedSrc } = Astro.props;
+---
+
+<figure
+  data-before-after
+  class="flex flex-col gap-4 rounded-2xl border border-charcoal/10 bg-sand/50 p-5 shadow-[var(--shadow-warm)] sm:p-6"
+>
+  <figcaption class="flex items-center justify-between gap-3">
+    <span class="text-lg font-medium text-charcoal">{label}</span>
+    <span class="eyebrow !text-charcoal/45">A / B</span>
+  </figcaption>
+
+  <!-- Raw / Mixed toggle -->
+  <div
+    role="group"
+    aria-label={`Choose version for ${label}`}
+    class="grid grid-cols-2 gap-1 rounded-full bg-paper p-1"
+  >
+    <button
+      type="button"
+      data-ver="raw"
+      aria-pressed="true"
+      class="ab-toggle rounded-full px-4 py-1.5 text-sm font-semibold text-charcoal/70 transition-colors"
+    >
+      Raw
+    </button>
+    <button
+      type="button"
+      data-ver="mixed"
+      aria-pressed="false"
+      class="ab-toggle rounded-full px-4 py-1.5 text-sm font-semibold text-charcoal/70 transition-colors"
+    >
+      Mixed
+    </button>
+  </div>
+
+  <!-- Transport -->
+  <div class="flex items-center gap-3">
+    <button
+      type="button"
+      data-play
+      data-playing="false"
+      aria-label="Play"
+      class="inline-flex h-11 w-11 shrink-0 items-center justify-center rounded-full bg-burnt text-paper transition-colors hover:bg-oxblood"
+    >
+      <svg
+        class="icon-play h-5 w-5 translate-x-px"
+        viewBox="0 0 24 24"
+        fill="currentColor"
+        aria-hidden="true"
+      >
+        <path d="M8 5v14l11-7z"></path>
+      </svg>
+      <svg
+        class="icon-pause hidden h-5 w-5"
+        viewBox="0 0 24 24"
+        fill="currentColor"
+        aria-hidden="true"
+      >
+        <path d="M6 5h4v14H6zM14 5h4v14h-4z"></path>
+      </svg>
+    </button>
+
+    <input
+      type="range"
+      data-seek
+      min="0"
+      max="1000"
+      value="0"
+      step="1"
+      aria-label={`Seek ${label}`}
+      class="ab-seek h-1.5 w-full grow cursor-pointer appearance-none rounded-full bg-charcoal/15"
+    />
+
+    <span class="shrink-0 font-mono text-xs tabular-nums text-charcoal/60">
+      <span data-time>0:00</span> / <span data-dur>0:00</span>
+    </span>
+  </div>
+
+  <audio data-audio="raw" src={rawSrc} preload="metadata"></audio>
+  <audio data-audio="mixed" src={mixedSrc} preload="metadata"></audio>
+</figure>
+
+<style>
+  /* active toggle pill */
+  .ab-toggle[aria-pressed="true"] {
+    background: var(--color-burnt);
+    color: var(--color-paper);
+  }
+  /* play/pause icon swap */
+  [data-play][data-playing="true"] .icon-play {
+    display: none;
+  }
+  [data-play][data-playing="true"] .icon-pause {
+    display: block;
+  }
+  /* seek thumb */
+  .ab-seek::-webkit-slider-thumb {
+    -webkit-appearance: none;
+    height: 16px;
+    width: 16px;
+    border-radius: 9999px;
+    background: var(--color-burnt);
+    cursor: pointer;
+  }
+  .ab-seek::-moz-range-thumb {
+    height: 16px;
+    width: 16px;
+    border: none;
+    border-radius: 9999px;
+    background: var(--color-burnt);
+    cursor: pointer;
+  }
+</style>
+
+<script>
+  type Ver = "raw" | "mixed";
+
+  document
+    .querySelectorAll<HTMLElement>("[data-before-after]")
+    .forEach((root) => {
+      const audios: Record<Ver, HTMLAudioElement | null> = {
+        raw: root.querySelector('audio[data-audio="raw"]'),
+        mixed: root.querySelector('audio[data-audio="mixed"]'),
+      };
+      const playBtn = root.querySelector<HTMLButtonElement>("[data-play]");
+      const seek = root.querySelector<HTMLInputElement>("[data-seek]");
+      const timeEl = root.querySelector<HTMLElement>("[data-time]");
+      const durEl = root.querySelector<HTMLElement>("[data-dur]");
+      const verBtns = root.querySelectorAll<HTMLButtonElement>("[data-ver]");
+
+      if (!audios.raw || !audios.mixed || !playBtn || !seek || !timeEl || !durEl)
+        return;
+
+      let active: Ver = "raw";
+      const cur = () => audios[active]!;
+      const all = [audios.raw, audios.mixed];
+
+      const fmt = (s: number) => {
+        if (!isFinite(s)) return "0:00";
+        const m = Math.floor(s / 60);
+        const ss = Math.floor(s % 60)
+          .toString()
+          .padStart(2, "0");
+        return `${m}:${ss}`;
+      };
+
+      const setPlaying = (p: boolean) => {
+        playBtn.dataset.playing = String(p);
+        playBtn.setAttribute("aria-label", p ? "Pause" : "Play");
+      };
+      const refreshDur = () => (durEl.textContent = fmt(cur().duration));
+      const refreshTime = () => {
+        const a = cur();
+        const d = a.duration || 0;
+        seek.value = d ? String((a.currentTime / d) * 1000) : "0";
+        timeEl.textContent = fmt(a.currentTime);
+      };
+
+      all.forEach((a) => {
+        a.addEventListener("loadedmetadata", () => a === cur() && refreshDur());
+        a.addEventListener("timeupdate", () => a === cur() && refreshTime());
+        a.addEventListener(
+          "ended",
+          () => a === cur() && (setPlaying(false), (seek.value = "0")),
+        );
+      });
+
+      playBtn.addEventListener("click", () => {
+        const a = cur();
+        if (a.paused) {
+          all.forEach((x) => x !== a && x.pause());
+          void a.play();
+          setPlaying(true);
+        } else {
+          a.pause();
+          setPlaying(false);
+        }
+      });
+
+      seek.addEventListener("input", () => {
+        const a = cur();
+        const d = a.duration || 0;
+        const t = (Number(seek.value) / 1000) * d;
+        all.forEach((x) => {
+          if (isFinite(x.duration)) x.currentTime = Math.min(t, x.duration);
+        });
+        timeEl.textContent = fmt(t);
+      });
+
+      verBtns.forEach((btn) =>
+        btn.addEventListener("click", () => {
+          const ver = btn.dataset.ver as Ver;
+          if (ver === active) return;
+          const from = cur();
+          const wasPlaying = !from.paused;
+          const t = from.currentTime;
+          from.pause();
+          active = ver;
+          const to = cur();
+          to.currentTime = isFinite(to.duration)
+            ? Math.min(t, to.duration)
+            : t;
+          verBtns.forEach((b) =>
+            b.setAttribute("aria-pressed", String(b.dataset.ver === active)),
+          );
+          refreshDur();
+          refreshTime();
+          if (wasPlaying) {
+            void to.play();
+            setPlaying(true);
+          }
+        }),
+      );
+
+      refreshDur();
+    });
+</script>

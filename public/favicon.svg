@@ -1,0 +1,11 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64" role="img" aria-label="LRD Production">
+  <rect width="64" height="64" rx="13" fill="#F4EBDD"/>
+  <rect x="2.5" y="2.5" width="59" height="59" rx="11" fill="none" stroke="#7A2E25" stroke-width="1.5" opacity="0.5"/>
+  <text x="32" y="35" text-anchor="middle"
+        font-family="Georgia, 'Times New Roman', serif" font-weight="600"
+        font-size="25" fill="#2B2622" letter-spacing="0.5">LRD</text>
+  <rect x="17" y="41" width="30" height="1.6" rx="0.8" fill="#C25A2B"/>
+  <text x="32" y="50.5" text-anchor="middle"
+        font-family="Arial, Helvetica, sans-serif" font-weight="700"
+        font-size="5.6" letter-spacing="1.6" fill="#7A2E25">PRODUCTION</text>
+</svg>
