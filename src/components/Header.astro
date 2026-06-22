@@ -21,8 +21,9 @@ const isActive = (href: string) => (href.replace(/\/+$/, "") || "/") === current
       <TypeMark variant="header" />
     </a>
 
-    <!-- Desktop nav -->
-    <nav class="hidden items-center gap-8 md:flex" aria-label="Primary">
+    <div class="flex items-center gap-1.5 sm:gap-3">
+      <!-- Desktop nav -->
+      <nav class="hidden items-center gap-8 md:flex" aria-label="Primary">
       {
         NAV.map((item) => (
           <a
@@ -42,9 +43,45 @@ const isActive = (href: string) => (href.replace(/\/+$/, "") || "/") === current
       }
     </nav>
 
-    <!-- Mobile toggle -->
-    <button
-      id="nav-toggle"
+      <!-- Theme toggle -->
+      <button
+        id="theme-toggle"
+        type="button"
+        class="theme-toggle inline-flex h-10 w-10 items-center justify-center rounded-full text-charcoal transition-colors hover:bg-sand/70"
+        aria-label="Switch to dark theme"
+      >
+        <svg
+          class="icon-moon h-5 w-5"
+          viewBox="0 0 24 24"
+          fill="none"
+          stroke="currentColor"
+          stroke-width="1.8"
+          stroke-linecap="round"
+          stroke-linejoin="round"
+          aria-hidden="true"
+        >
+          <path d="M21 12.8A9 9 0 1 1 11.2 3a7 7 0 0 0 9.8 9.8z"></path>
+        </svg>
+        <svg
+          class="icon-sun h-5 w-5"
+          viewBox="0 0 24 24"
+          fill="none"
+          stroke="currentColor"
+          stroke-width="1.8"
+          stroke-linecap="round"
+          stroke-linejoin="round"
+          aria-hidden="true"
+        >
+          <circle cx="12" cy="12" r="4"></circle>
+          <path
+            d="M12 2v2M12 20v2M4.9 4.9l1.4 1.4M17.7 17.7l1.4 1.4M2 12h2M20 12h2M4.9 19.1l1.4-1.4M17.7 6.3l1.4-1.4"
+          ></path>
+        </svg>
+      </button>
+
+      <!-- Mobile menu toggle -->
+      <button
+        id="nav-toggle"
       type="button"
       class="-mr-1.5 inline-flex items-center justify-center rounded-md p-2 text-charcoal transition-colors hover:bg-sand/70 md:hidden"
       aria-label="Open menu"
@@ -73,7 +110,8 @@ const isActive = (href: string) => (href.replace(/\/+$/, "") || "/") === current
       >
         <path d="M6 6l12 12M18 6L6 18"></path>
       </svg>
-    </button>
+      </button>
+    </div>
   </div>
 
   <!-- Mobile menu -->
@@ -113,6 +151,26 @@ const isActive = (href: string) => (href.replace(/\/+$/, "") || "/") === current
 </header>
 
 <script>
+  // Theme toggle: light frost ↔ dark night-sky, persisted in localStorage.
+  const themeBtn = document.getElementById("theme-toggle");
+  const themeMeta = document.querySelector('meta[name="theme-color"]');
+  const syncTheme = () => {
+    const dark = document.documentElement.getAttribute("data-theme") === "dark";
+    themeMeta?.setAttribute("content", dark ? "#0c1c24" : "#E9F1EF");
+    themeBtn?.setAttribute(
+      "aria-label",
+      dark ? "Switch to light theme" : "Switch to dark theme",
+    );
+  };
+  syncTheme();
+  themeBtn?.addEventListener("click", () => {
+    const dark = document.documentElement.getAttribute("data-theme") === "dark";
+    if (dark) document.documentElement.removeAttribute("data-theme");
+    else document.documentElement.setAttribute("data-theme", "dark");
+    localStorage.setItem("theme", dark ? "light" : "dark");
+    syncTheme();
+  });
+
   // Soft shadow once the page is scrolled (warm separation, not harsh).
   const header = document.getElementById("site-header");
   if (header) {

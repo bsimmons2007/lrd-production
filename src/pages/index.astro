@@ -6,7 +6,13 @@ import Equalizer from "../components/Equalizer.astro";
 import Marquee from "../components/Marquee.astro";
 import Stat from "../components/Stat.astro";
 import CTABand from "../components/CTABand.astro";
-import { SITE, FEATURED_TRACK_SLUG, soundcloudEmbed } from "../config";
+import Testimonials from "../components/Testimonials.astro";
+import {
+  SITE,
+  FEATURED_TRACK_SLUG,
+  soundcloudEmbed,
+  TESTIMONIALS,
+} from "../config";
 
 const genres = [
   "Rock",
@@ -258,6 +264,9 @@ const genres = [
       </a>
     </div>
   </section>
+
+  {/* Testimonials — renders only when TESTIMONIALS has entries (config). */}
+  {TESTIMONIALS.length > 0 && <Testimonials items={TESTIMONIALS} />}
 
   <!-- ========================= ABOUT TEASER ======================= -->
   <section

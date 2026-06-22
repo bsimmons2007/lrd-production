@@ -1,0 +1,43 @@
+---
+/**
+ * Testimonials — social proof grid. Rendered by the home page only when
+ * TESTIMONIALS (in config) has entries, so no placeholder quotes ship.
+ */
+import type { Testimonial } from "../config";
+
+interface Props {
+  items: Testimonial[];
+}
+const { items } = Astro.props;
+---
+
+<section class="reveal-group mx-auto max-w-6xl px-5 py-16 sm:px-8 sm:py-20">
+  <p class="reveal eyebrow">Kind words</p>
+  <h2 class="reveal-text mt-5 text-[clamp(2.25rem,6vw,4rem)] font-medium leading-[0.98] text-charcoal">
+    What artists say
+  </h2>
+
+  <div class="mt-10 grid gap-5 sm:grid-cols-2 lg:grid-cols-3">
+    {
+      items.map((t) => (
+        <figure class="reveal card card-hover flex flex-col p-7">
+          <svg
+            class="h-7 w-7 text-burnt/70"
+            viewBox="0 0 24 24"
+            fill="currentColor"
+            aria-hidden="true"
+          >
+            <path d="M9.5 7H5v6h3v4H4a1 1 0 0 1-1-1V7a2 2 0 0 1 2-2h3a1 1 0 0 1 1 1zM20.5 7H16v6h3v4h-4a1 1 0 0 1-1-1V7a2 2 0 0 1 2-2h3a1 1 0 0 1 1 1z" />
+          </svg>
+          <blockquote class="mt-4 leading-relaxed text-charcoal/85">
+            {t.quote}
+          </blockquote>
+          <figcaption class="mt-6 text-sm">
+            <span class="font-semibold text-charcoal">{t.name}</span>
+            {t.role && <span class="text-charcoal/60"> · {t.role}</span>}
+          </figcaption>
+        </figure>
+      ))
+    }
+  </div>
+</section>

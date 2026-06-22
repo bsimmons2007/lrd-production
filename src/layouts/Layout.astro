@@ -3,7 +3,7 @@ import "../styles/global.css";
 import Analytics from "@vercel/analytics/astro";
 import Header from "../components/Header.astro";
 import Footer from "../components/Footer.astro";
-import { SITE } from "../config";
+import { SITE, CONTACT } from "../config";
 
 interface Props {
   title?: string;
@@ -26,6 +26,41 @@ const pageTitle = title
 const base = Astro.site ?? new URL(Astro.url.origin);
 const canonical = new URL(Astro.url.pathname, base).href;
 const ogImageUrl = new URL(ogImage, base).href;
+
+// Structured data for richer search results.
+const sameAs = [CONTACT.soundcloud, CONTACT.instagram, CONTACT.spotify].filter(
+  (u) => u && u !== "#",
+);
+const jsonLd = {
+  "@context": "https://schema.org",
+  "@type": "ProfessionalService",
+  "@id": new URL("/", base).href,
+  name: SITE.name,
+  description: SITE.description,
+  url: new URL("/", base).href,
+  image: ogImageUrl,
+  email: CONTACT.email,
+  priceRange: "$$",
+  areaServed: "Worldwide (remote) and Aurora, Illinois",
+  address: {
+    "@type": "PostalAddress",
+    addressLocality: "Aurora",
+    addressRegion: "IL",
+    addressCountry: "US",
+  },
+  founder: {
+    "@type": "Person",
+    name: SITE.owner,
+    jobTitle: "Audio Engineer & Music Producer",
+  },
+  knowsAbout: [
+    "Audio Recording",
+    "Audio Mixing",
+    "Audio Mastering",
+    "Music Production",
+  ],
+  ...(sameAs.length ? { sameAs } : {}),
+};
 ---
 
 <!doctype html>
@@ -74,9 +109,20 @@ const ogImageUrl = new URL(ogImage, base).href;
     <meta name="twitter:description" content={description} />
     <meta name="twitter:image" content={ogImageUrl} />
 
+    <!-- Structured data -->
+    <script
+      type="application/ld+json"
+      is:inline
+      set:html={JSON.stringify(jsonLd)}
+    />
+
     <!-- Enable motion only when JS is on AND reduced motion is NOT requested.
          Runs before paint so initial hidden states never flash for others. -->
     <script is:inline>
+      // Apply saved theme before paint (no flash). Default = light (frost).
+      if (localStorage.getItem("theme") === "dark") {
+        document.documentElement.setAttribute("data-theme", "dark");
+      }
       if (
         !window.matchMedia("(prefers-reduced-motion: reduce)").matches &&
         !location.search.includes("stillshot")

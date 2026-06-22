@@ -27,6 +27,57 @@
     0 26px 50px -20px rgba(122, 46, 37, 0.28);
 }
 
+/* ------------------------------------------------------------------ *
+ * Dark — night-sky aurora. Toggled via data-theme="dark" on <html>.
+ * Overriding the same custom properties flips every token-based utility.
+ * ------------------------------------------------------------------ */
+html[data-theme="dark"] {
+  --color-paper: #0c1c24; /* night-sky base */
+  --color-charcoal: #e6f1ec; /* frost text */
+  --color-burnt: #34d8a0; /* brighter aurora green */
+  --color-amber: #3ed8e2; /* bright teal */
+  --color-oxblood: #64c8f0; /* sky-blue accent / hovers */
+  --color-sand: #15303a; /* dark card surface */
+  --color-ink: #06141a; /* deepest, for bands */
+  --shadow-warm: 0 1px 2px rgba(0, 0, 0, 0.3),
+    0 10px 30px -16px rgba(0, 0, 0, 0.6);
+  --shadow-warm-lg: 0 2px 6px rgba(0, 0, 0, 0.35),
+    0 26px 50px -20px rgba(0, 0, 0, 0.72);
+  color-scheme: dark;
+}
+/* Aurora glow at the top of the page instead of a white wash */
+html[data-theme="dark"] body {
+  background-image:
+    radial-gradient(
+      125% 70% at 50% 0%,
+      color-mix(in srgb, var(--color-amber) 12%, transparent),
+      transparent 55%
+    ),
+    radial-gradient(
+      70% 45% at 86% 2%,
+      color-mix(in srgb, var(--color-burnt) 14%, transparent),
+      transparent 60%
+    ),
+    radial-gradient(
+      70% 45% at 12% 1%,
+      color-mix(in srgb, var(--color-oxblood) 14%, transparent),
+      transparent 60%
+    );
+}
+html[data-theme="dark"] .grain-overlay {
+  mix-blend-mode: overlay;
+  opacity: 0.06;
+}
+/* The hero glow needs to screen (glow) on the dark base */
+html[data-theme="dark"] .aurora-glow::before {
+  mix-blend-mode: screen;
+  filter: blur(34px);
+  background:
+    radial-gradient(40% 70% at 24% 18%, rgba(45, 222, 160, 0.22), transparent 70%),
+    radial-gradient(36% 60% at 60% 6%, rgba(62, 216, 226, 0.2), transparent 70%),
+    radial-gradient(42% 70% at 86% 24%, rgba(100, 200, 240, 0.18), transparent 72%);
+}
+
 /* ================================================================== *
  * Base
  * ================================================================== */
@@ -114,10 +165,11 @@
   inset: 0;
   z-index: 55;
   pointer-events: none;
+  /* fixed dark so it stays a vignette (never inverts in dark mode) */
   background: radial-gradient(
     135% 115% at 50% 42%,
     transparent 58%,
-    color-mix(in srgb, var(--color-charcoal) 10%, transparent) 100%
+    rgba(6, 18, 24, 0.12) 100%
   );
 }
 
@@ -335,11 +387,12 @@
     background-blend-mode: multiply;
   }
 
-  /* Dark contrast band — recessed, with a subtle gradient so it has depth */
+  /* Dark contrast band — recessed, with a subtle gradient so it has depth.
+     Always a dark band with light text, in both themes. */
   .band-dark {
     position: relative;
     overflow: hidden;
-    color: var(--color-paper);
+    color: #eaf4ef;
     background:
       radial-gradient(
         120% 90% at 50% 0%,
@@ -406,6 +459,31 @@
   .ul-anim:hover {
     background-size: 100% 1.5px;
   }
+}
+
+/* FAQ accordion (native <details>) */
+.faq-item summary {
+  list-style: none;
+}
+.faq-item summary::-webkit-details-marker {
+  display: none;
+}
+.faq-chevron {
+  transition: transform 0.25s ease;
+}
+.faq-item[open] .faq-chevron {
+  transform: rotate(180deg);
+}
+
+/* Theme toggle — show moon in light mode, sun in dark mode */
+.theme-toggle .icon-sun {
+  display: none;
+}
+html[data-theme="dark"] .theme-toggle .icon-moon {
+  display: none;
+}
+html[data-theme="dark"] .theme-toggle .icon-sun {
+  display: block;
 }
 
 /* Readable prose for legal pages */

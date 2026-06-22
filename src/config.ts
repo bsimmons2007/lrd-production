@@ -90,3 +90,17 @@ export interface MixDemo {
 // /public/audio/demos/ , e.g.:
 //   { label: "Vocal chain", rawSrc: "/audio/demos/vocal-raw.mp3", mixedSrc: "/audio/demos/vocal-mixed.mp3" }
 export const MIX_DEMOS: MixDemo[] = [];
+
+/* ------------------------------------------------------------------ *
+ * Testimonials — social proof. The section on the home page only
+ * renders when this array has entries, so nothing fake ever ships.
+ * ------------------------------------------------------------------ */
+export interface Testimonial {
+  quote: string;
+  name: string;
+  role?: string;
+}
+
+// TODO: Logan — add a few real client quotes here. Example:
+//   { quote: "Logan made my track sound huge.", name: "Jane Doe", role: "Singer-songwriter" }
+export const TESTIMONIALS: Testimonial[] = [];
