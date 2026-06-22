@@ -44,6 +44,21 @@
 
   body {
     background-color: var(--color-paper);
+    /* Soft page lighting: a glow up top + faint aurora tints in the corners,
+       so the frost base reads as lit paper rather than a flat fill. */
+    background-image:
+      radial-gradient(125% 70% at 50% 0%, rgba(255, 255, 255, 0.55), transparent 55%),
+      radial-gradient(
+        70% 45% at 88% 2%,
+        color-mix(in srgb, var(--color-amber) 14%, transparent),
+        transparent 60%
+      ),
+      radial-gradient(
+        70% 45% at 10% 1%,
+        color-mix(in srgb, var(--color-burnt) 11%, transparent),
+        transparent 60%
+      );
+    background-repeat: no-repeat;
     min-height: 100svh;
     overflow-x: hidden;
   }
@@ -88,9 +103,22 @@
   pointer-events: none;
   background-image: url("/textures/grain.svg");
   background-repeat: repeat;
-  background-size: 220px 220px;
-  opacity: 0.05;
+  background-size: 170px 170px;
+  opacity: 0.09;
   mix-blend-mode: multiply;
+}
+
+/* Subtle vignette — darkens the viewport edges a touch for depth */
+.vignette {
+  position: fixed;
+  inset: 0;
+  z-index: 55;
+  pointer-events: none;
+  background: radial-gradient(
+    135% 115% at 50% 42%,
+    transparent 58%,
+    color-mix(in srgb, var(--color-charcoal) 10%, transparent) 100%
+  );
 }
 
 .hero-grain {
@@ -245,10 +273,22 @@
     @apply inline-flex items-center gap-1.5 text-sm font-semibold text-oxblood transition-colors hover:text-burnt;
   }
 
-  /* Refined surface card — hairline + warm lift, top accent on hover */
+  /* Tactile surface card — paper grain + top sheen + inset edge + warm lift */
   .card {
-    @apply relative rounded-2xl border border-charcoal/12 bg-sand/45 transition-[transform,box-shadow,border-color] duration-300;
-    box-shadow: var(--shadow-warm);
+    @apply relative rounded-2xl border border-charcoal/12 transition-[transform,box-shadow,border-color] duration-300;
+    background-color: color-mix(in srgb, var(--color-sand) 72%, var(--color-paper));
+    background-image:
+      linear-gradient(
+        180deg,
+        rgba(255, 255, 255, 0.4),
+        rgba(255, 255, 255, 0) 42%
+      ),
+      url("/textures/paper.svg");
+    background-size: auto, 200px 200px;
+    background-blend-mode: normal, multiply;
+    box-shadow:
+      var(--shadow-warm),
+      inset 0 1px 0 rgba(255, 255, 255, 0.6);
   }
   .card::before {
     content: "";
@@ -288,12 +328,27 @@
     box-shadow: 0 1px 2px rgba(43, 38, 34, 0.12);
   }
 
-  /* Dark contrast band */
+  /* Faint paper grain on a tinted surface (footer, marquee band, etc.) */
+  .textured-surface {
+    background-image: url("/textures/paper.svg");
+    background-size: 200px 200px;
+    background-blend-mode: multiply;
+  }
+
+  /* Dark contrast band — recessed, with a subtle gradient so it has depth */
   .band-dark {
     position: relative;
-    background: var(--color-ink);
-    color: var(--color-paper);
     overflow: hidden;
+    color: var(--color-paper);
+    background:
+      radial-gradient(
+        120% 90% at 50% 0%,
+        color-mix(in srgb, var(--color-oxblood) 30%, var(--color-ink)),
+        var(--color-ink) 60%
+      );
+    box-shadow:
+      inset 0 20px 44px -26px rgba(0, 0, 0, 0.75),
+      inset 0 -20px 44px -26px rgba(0, 0, 0, 0.6);
   }
 
   /* Equalizer */

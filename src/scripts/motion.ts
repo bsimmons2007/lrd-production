@@ -7,12 +7,16 @@
  *
  * Imported only by pages that animate (anime.js stays out of the rest).
  * ================================================================== */
-import { animate, createTimeline, stagger, onScroll, svg } from "animejs";
+import { animate, createTimeline, stagger, svg } from "animejs";
 
 const reduced = () =>
   window.matchMedia("(prefers-reduced-motion: reduce)").matches;
 
-/** Play now if already in view, else once it scrolls into view. */
+/**
+ * Run `cb` once when `el` first enters the viewport. Uses IntersectionObserver
+ * so it fires reliably even on instant jumps / fast scrolls / scroll
+ * restoration — content can never get stuck hidden.
+ */
 function onView(el: Element, cb: () => void) {
   let done = false;
   const run = () => {
@@ -20,9 +24,23 @@ function onView(el: Element, cb: () => void) {
     done = true;
     cb();
   };
-  const r = el.getBoundingClientRect();
-  if (r.top < window.innerHeight * 0.92 && r.bottom > 0) run();
-  else onScroll({ target: el, onEnter: run });
+  if (typeof IntersectionObserver === "undefined") {
+    run();
+    return;
+  }
+  const io = new IntersectionObserver(
+    (entries, obs) => {
+      for (const e of entries) {
+        if (e.isIntersecting) {
+          run();
+          obs.disconnect();
+          break;
+        }
+      }
+    },
+    { rootMargin: "0px 0px -8% 0px", threshold: 0 },
+  );
+  io.observe(el);
 }
 
 /* ------------------------------------------------------------------ *
